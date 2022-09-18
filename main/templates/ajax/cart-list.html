@@ -1,0 +1,222 @@
+{% load static %}
+{% load humanizelib %}
+{% if shopcart %}
+<div class="container-main" id="cartlist">
+    <div class="d-block">
+        <div class="main-row">
+            <div id="breadcrumb">
+                <i class="mdi mdi-home"></i>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">خانه</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">سبد خرید</li>
+                    </ol>
+                </nav>
+            </div>
+            <section class="cart-home">
+                <div class="post-item-cart d-block order-2">
+                    <div class="content-page">
+                        <div class="cart-form">
+                                <table class="table-cart cart table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="product-cart-name">نام محصول</th>
+                                            <th scope="col" class="product-cart-price">قیمت</th>
+                                            <th scope="col" class="product-cart-quantity">تعداد مورد نیاز</th>
+                                            <th scope="col" class="product-cart-quantity">بروزرسانی</th>
+                                            <th scope="col" class="product-cart-Total">مجموع</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in shopcart %}
+                                        <tr class="product_data">
+                                            <th scope="row" class="product-cart-name">
+                                                <div class="product-thumbnail-img">
+                                                    <a href="#">
+                                                        {% if item.variant.image_id  > 0 %}
+                                                        <img src="{{item.variant.image}}">
+                                                        {% else %}
+                                                        <img src="{{item.product.image.url}}">
+                                                        {% endif %}
+                                                    </a>
+                                                    <div class="product-remove">
+                                                        <a href="{% url 'deleteformcart' item.id %}" onclick = "return confirm('ایا محصول حذف شود؟')" class="remove delete-item" data-item = "{{item.product_id}}">
+                                                            <i class="mdi mdi-close"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="product-title">
+                                                    <a href="#">
+                                                        {{item.product}}
+                                                    </a>
+                                                    <div class="variation">
+                                                        <div class="variant-color">
+                                                            <span class="variant-color-title">{{item.variant.color}}</span>
+                                                            <div style="background-color:{{item.variant.color.color_code}};" class="variant-shape"></div>
+                                                        </div>
+                                                       
+                                                        <div class="variant-guarantee">
+                                                            <i class="mdi mdi-check"></i>
+                                                             {{item.variant.size}}
+                                                        </div>
+                                                        <div class="seller">
+                                                            <i class="mdi mdi-storefront"></i>
+                                                            فروشنده :
+                                                            <span>کالا مارکت</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <td class="product-cart-price">
+                                                {% if rs.product.variant == 'None' %}
+                                                <span class="amount">{{item.product.price|intcomma}}
+                                                {% else %}
+                                                <span class="amount">{{item.variant.price|intcomma}}
+                                                {% endif %}
+                                                    <span>تومان</span>
+                                                </span>
+                                            </td>
+                                            
+                                            
+                                            <td class="product-cart-quantity">
+                                                <div class="required-number before">
+                                                        {% csrf_token %}
+                                                    <div class="quantity">
+                                                        <input class = "qty-input" name = "quantity"  type="number" {% if item.product.variant == 'None' %} min="1" max="{{item.product.amount}}" {% else%} min="1" max="{{item.variant.quantity}}" {% endif %}  step="1" value="{{item.quantity}}">
+                                                    </div>
+                                                    
+                                                </div>
+                                            </td>
+                                            
+                                            <td class="product-cart-quantity">
+                                                <input class="prod_id" type="hidden" value="{{item.product.id}}"></input>
+                                                <form method="POST">
+                                                {% csrf_token %}
+                                                <div class="required-number before">
+                                                    <div class="quantity">
+                                                        <button class="btn btn-sm update-item changeQuantity" ><i class="fa fa-refresh"></i></button>
+                                                    </div>
+                                                </div>
+                                                </form>
+                                            </td>
+                                            </form>
+                                            <td class="product-cart-Total">
+                                                {% if item.product.variant == 'None' %}
+                                                <span class="amount">
+                                                    {{item.amount|intcomma}}<span>تومان</span>
+                                                </span>
+                                                {% else %}
+                                                <span class="amount">
+                                                    {{item.varamount|intcomma}}<span>تومان</span>
+                                                </span>
+                                                {% endif %}
+                                               
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                          
+                            <div class="cart-collaterals">
+                                <div class="totals d-block">
+                                    <h3 class="Total-cart-total">مجموع کل سبد خرید</h3>
+                                    <div class="checkout-summary">
+                                        <ul class="checkout-summary-summary">
+                                            <li class="cart-subtotal">
+                                                <span class="amount">قیمت کل</span>
+                                                <span> {{total|intcomma}} تومان</span>
+                                            </li>
+                                            <li class="shipping-totals">
+                                                <span class="amount">حمل و نقل</span>
+                                                <div class="shipping-totals-item">
+                                                    <div class="shipping-totals-outline">
+                                                        <label for="#" class="outline-radio">
+                                                            <input type="radio" name="payment_method"
+                                                                id="payment-option-online" checked="checked">
+                                                            <span class="outline-radio-check"></span>
+                                                        </label>
+                                                        <label for="#" class="shipping-totals-title-row">
+                                                            <div class="shipping-totals-title">حمل و نقل رایگان
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                    <div class="shipping-totals-outline">
+                                                        <label for="#" class="outline-radio">
+                                                            <input type="radio" name="payment_method"
+                                                                id="payment-option-online">
+                                                            <span class="outline-radio-check"></span>
+                                                        </label>
+                                                        <label for="#" class="shipping-totals-title-row">
+                                                            <div class="shipping-totals-title">حمل و نقل معمولی:
+                                                                20,000 تومان</div>
+                                                        </label>
+                                                    </div>
+                                                   
+                                                </div>
+                                            </li>
+                                            <li class="order-total">
+                                                <span class="amount"> مجموع</span>
+                                                {% if total_price_after_discount %}
+                                                <span> {{total_price_after_discount|intcomma}} تومان</span>
+                                                {% else %}
+                                                <span> {{total|intcomma}} تومان</span>
+                                                {% endif %}
+                                            </li>
+                                            
+                                            <li class="discount-code">
+                                                <div class=" align-items-center">
+                                                    <div class="col-md-2 pl mt-5">
+                                                        <div class="proceed-to-checkout">
+                                                            <a href="{% url 'order_product' %}" class="checkout-button d-block">تسویه
+                                                                حساب</a>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-2 pl mt-5">
+                                                        <div class="proceed-to-checkout">
+                                                            <a href="{% url 'home' %}" class="checkout-button d-block">ادامه
+                                                                خرید</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    {% else %}
+    <div class="container-main">
+        <div class="d-block">
+            <div class="main-row">
+                <section class="cart-home">
+                    <div class="post-item-cart d-block order-2">
+                        <div class="content-page">
+                            <div class="cart-form">
+                                <div class="cart-empty text-center d-block">
+                                    <div class="cart-empty-img mb-4 mt-4">
+                                        <img style ="width:400px;height:400px" src="{% static 'assets4/images/cart-empty.gif' %}">
+                                    </div>
+                                    <p class="cart-empty-title">سبد خرید شما در حال حاضر خالی است.</p>
+                                    <a href="#" class="btn account-btn btn-primary">ورود به حساب کاربری</a>
+                                    <div class="return-to-shop">
+                                        <a href="#" class="backward btn btn-secondary">بازگشت به صفحه اصلی</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+
+<script src="{% static 'assets4/js/main.js' %}"></script>

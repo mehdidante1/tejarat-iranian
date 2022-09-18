@@ -1,0 +1,16 @@
+<ul class="sub-menu is-mega-menu-small">
+    {% for cat in cat.children.all  %}
+    <li class="menu-mega-item menu-item-type-mega-menu item-small">
+        <a href="{% url 'product_list3' cat.slug %}" class="mega-menu-link">
+            {{cat.title}}
+        </a>
+        <ul class="sub-menu is-mega-menu-small-three">
+            <li class="menu-mega-item menu-item-type-mega-menu item-small-three">
+                {% if cat.children.all %}
+                    {% include "category_loop.html" %}
+                {% endif %}
+            </li>
+        </ul>
+    </li>
+    {% endfor %}
+</ul>

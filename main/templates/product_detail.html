@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+{% load static %}
+{% load humanizelib %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محصولات</title>
+    <!-- font---------------------------------------->
+    <link rel="stylesheet" href="{% static  'assets4/css/vendor/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static  'assets4/css/vendor/materialdesignicons.css' %}">
+    <!-- plugin-------------------------------------->
+    <link rel="stylesheet" href="{% static  'assets4/css/vendor/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static  'assets4/css/vendor/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static  'assets4/css/vendor/noUISlider.min.css' %}">
+    <link rel="stylesheet" href="{% static  'assets4/css/vendor/lightgallery.css' %}">
+    <link rel="stylesheet" href="{% static  'assets4/css/vendor/nice-select.css' %}">
+    <!-- main-style---------------------------------->
+    <link rel="stylesheet" href="{% static  'assets4/css/main.css' %}">
+    <link rel="stylesheet" href="{% static  'assets4/css/responsive.css' %}">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css"/>
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.rtl.min.css"/>
+</head>
+
+<body>
+    <!-- header-------------------------------->
+    <header class="header-main">
+        <div class="container-main">
+            <div class="d-block">
+                <section class="h-main-row">
+                    <div class="col-lg-9 col-md-12 col-xs-12 pr">
+                        <div class="header-right">
+                            <div class="col-lg-3 pr">
+                                <div class="header-logo row text-right">
+                                    <a href="{% url 'home' %}">
+                                        <img style="width:200px;" src="{% static 'assets4/images/logo-2.png' %}" alt="دیجی اسمارت">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 pr">
+                                <div class="header-search row text-right">
+                                    <div class="header-search-box">
+                                        <form action="search/"  method="POST" class="form-search">
+                                            {% csrf_token %}
+                                            <input required id="query" type="search" class="header-search-input" name="query"
+                                                placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
+                                            <div class="action-btns">
+                                                <button class="btn btn-search" type="submit">
+                                                    <img src="{% static 'assets4/images/search.png' %}" alt="search">
+                                                </button>
+                                                <div class="search-filter">
+                                                    <div class="form-ui">
+                                                        <div class="custom-select-ui">
+                                                            <select name="catid" class="right">
+                                                                <option value="0">تمام دسته بندی ها</option>
+                                                                {% for brand in brand %}
+                                                                <option value="{{brand.id}}">{{brand.title}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+    
+                                        
+    
+    
+                                        <div class="search-result">
+                                            <ul class="search-result-list mb-0">
+                                                <li>
+                                                    <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                                        کالای دیجیتال
+                                                        <button class="btn btn-light btn-continue-search" type="submit">
+                                                            <i class="fa fa-angle-left"></i>
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                                        آرایشی و بهداشتی
+                                                        <button class="btn btn-light btn-continue-search" type="submit">
+                                                            <i class="fa fa-angle-left"></i>
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                                        گوشی موبایل
+                                                        <button class="btn btn-light btn-continue-search" type="submit">
+                                                            <i class="fa fa-angle-left"></i>
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                                        تبلت
+                                                        <button class="btn btn-light btn-continue-search" type="submit">
+                                                            <i class="fa fa-angle-left"></i>
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                                        لپ تاپ
+                                                        <button class="btn btn-light btn-continue-search" type="submit">
+                                                            <i class="fa fa-angle-left"></i>
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                                        دوربین
+                                                        <button class="btn btn-light btn-continue-search" type="submit">
+                                                            <i class="fa fa-angle-left"></i>
+                                                        </button>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="localSearchSimple"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if user.is_authenticated %} 
+                    <div class="col-lg-3 col-md-0 col-xs-12 pl">
+                        <div class="header-left">
+                            <div class="header-account text-left">
+                                <div class="d-block">
+                                    <div class="account-box">
+                                        <div class="nav-account d-block pl">
+                                            <span class="icon-account">
+                                                <img src="{% static 'assets4/images/man.png' %}" class="avator">
+                                            </span>
+                                            <span class="title-account">حساب کاربری</span>
+                                            <div class="dropdown-menu">
+                                                <ul class="account-uls mb-0">
+                                                    <li class="account-item">
+                                                        <a href="{% url 'my_dashboard' %}" class="account-link">پنل کاربری</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a href="{% url 'my_orders' %}" class="account-link">سفارشات من</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a href="{% url 'Edit_Profile' %}" class="account-link">تنظیمات</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a href="{%url 'logout'%}" class="account-link">خروج</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% else %}
+                    <div class="col-lg-3 col-md-0 col-xs-12 pl">
+                        <div class="header-left">
+                            <div class="header-account text-left">
+                                <div class="d-block">
+                                    <div class="account-box">
+                                        <div class="nav-account d-block pl">
+                                            <span class="icon-account">
+                                                <img src="{% static 'assets4/images/man.png' %}" class="avator">
+                                            </span>
+                                            <span class="title-account">حساب کاربری</span>
+                                            <div class="dropdown-menu">
+                                                <ul class="account-uls mb-0">
+                                                    <li class="account-item">
+                                                        <a href="{% url 'signup'%}" class="account-link">ثبت نام</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a href="{% url 'login'%}" class="account-link">ورود به پنل</a>
+                                                    </li>
+                                                   
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </section>
+                <nav class="header-main-nav">
+                    <div class="d-block">
+                        <div class="align-items-center">
+                            
+                            <ul class="menu-ul mega-menu-level-one">
+                                {% for cat in cat %}
+                                {% if cat.parent == None %}
+                                <li id="nav-menu-item" class="menu-item nav-overlay">
+                                    <a href="{% url 'product_list3' cat.slug %}" class="current-link-menu">
+                                    {{cat.title}}
+                                    </a>
+                                    {% if cat.children.all %}
+                                        {% include "category_loop.html" %}
+                                    {% endif %}
+                                </li>
+                                {% endif %}
+                                
+                                {% endfor %}
+                                <li id="nav-menu-item" class="menu-item nav-overlay">
+                                    <a style="color:blue;" href="{% url 'blog_list' %}" class="current-link-menu">
+                                        مقالات سایت
+                                    </a>
+                                </li>
+                                <li class="divider-space-card d-block" id="book-table">
+                                   {% include 'cart_list_home.html' %}
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+               
+                <!--    responsive-megamenu-mobile------------------>
+                <nav class="sidebar">
+                    <div class="nav-header">
+                        <div class="header-cover"></div>
+                        <div class="logo-wrap">
+                            <a class="logo-icon" href="{% url 'home' %}"><img alt="logo-icon" src="{% static 'assets4/images/logo-2.png' %}"
+                                    width="40"></a>
+                        </div>
+                    </div>
+                    <ul class="nav-categories ul-base">
+                        {% for cat in cat %}
+                        {% if cat.parent == None %}
+                        <li>
+                            <a href="{% url 'product_list3' cat.slug %}" class="collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><i
+                                    class="mdi mdi-chevron-down"></i>{{cat.title}}</a>
+                            {% if cat.children.all %}
+                            {% include "category_loop_mobile.html" %}
+                            {% endif %}
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                        
+                    </ul>
+                </nav>
+                <div class="nav-btn nav-slider">
+                    <span class="linee1"></span>
+                    <span class="linee2"></span>
+                    <span class="linee3"></span>
+                </div>
+                <div class="overlay"></div>
+                <!-- bottom-menu-joomy -->
+                <div class="bottom-menu-joomy">
+                    <ul class="mb-0">
+                        <li>
+                            <a href="home-1.html">
+                                <i class="fa fa-home"></i>
+                                صفحه اصلی
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="nav-btn nav-slider">
+                                    <i class="fa fa-bars" aria-hidden="true"></i>
+                                </div>
+                                دسته بندی ها
+                            </a>
+                        </li>
+                        <li>
+                            <a href="cart.html">
+                                <i class="fa fa-shopping-cart"></i>
+                                سبد خرید
+                                <div class="shopping-bag-item">2</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#exampleModalCenter">
+                                <i class="fa fa-search"></i>
+                                جستجو
+                            </a>
+                        </li>
+                        <li>
+                            <a href="login.html">
+                                <i class="fa fa-user"></i>
+                                حساب کاربری
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!--    responsive-megamenu-mobile------------------>
+            </div>
+        </div>
+    </header>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">جستجو</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="header-search text-right">
+                        <div class="header-search-box">
+                            <form action="#" class="form-search">
+                                <input type="search" class="header-search-input" name="search-input"
+                                    placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
+                                <div class="action-btns">
+                                    <button class="btn btn-search" type="submit">
+                                        <img src="{% static 'assets4/images/search.png' %}" alt="search">
+                                    </button>
+                                    <div class="search-filter">
+                                        <div class="form-ui">
+                                            <div class="custom-select-ui">
+                                                <select class="right">
+                                                    <option>همه دسته ها</option>
+                                                    <option>کالای دیجیتال</option>
+                                                    <option>آرایشی بهداشتی</option>
+                                                    <option>ابزاری اداری</option>
+                                                    <option>مد پوشاک</option>
+                                                    <option>خانه آشپز خانه</option>
+                                                    <option>لوازم تحریر و هنر</option>
+                                                    <option>کودک و نوزاد</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="search-result">
+                                <ul class="search-result-list mb-0">
+                                    <li>
+                                        <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                            کالای دیجیتال
+                                            <button class="btn btn-light btn-continue-search" type="submit">
+                                                <i class="fa fa-angle-left"></i>
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                            آرایشی و بهداشتی
+                                            <button class="btn btn-light btn-continue-search" type="submit">
+                                                <i class="fa fa-angle-left"></i>
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                            گوشی موبایل
+                                            <button class="btn btn-light btn-continue-search" type="submit">
+                                                <i class="fa fa-angle-left"></i>
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                            تبلت
+                                            <button class="btn btn-light btn-continue-search" type="submit">
+                                                <i class="fa fa-angle-left"></i>
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                            لپ تاپ
+                                            <button class="btn btn-light btn-continue-search" type="submit">
+                                                <i class="fa fa-angle-left"></i>
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="mdi mdi-clock-outline"></i>
+                                            دوربین
+                                            <button class="btn btn-light btn-continue-search" type="submit">
+                                                <i class="fa fa-angle-left"></i>
+                                            </button>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="localSearchSimple"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-categories-overlay"></div>
+    <div class="overlay-search-box"></div>
+    <!-- header-------------------------------->
+
+    <!-- arshive-product------------------------>
+    <div class="container-main">
+        <div class="d-block">
+            <div class="page-content page-row">
+                <div class="main-row">
+                    <div id="breadcrumb">
+                        <i class="mdi mdi-home"></i>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">خانه</a></li>
+                                <li class="breadcrumb-item"><a href="#">{{data.category}}</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{data.title}}
+                                 </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-lg">
+                        <div class="product type-product">
+                            <div class="col-lg-5 col-xs-12 pr d-block" style="padding: 0;">
+                                <section class="product-gallery">
+                                    <div class="gallery">
+                                        <div class="gallery-item">
+                                           
+                                        </div>
+                                        <div class="gallery-item">
+                                            <div class="gallery-img">
+                                                <input type="hidden" class="product-image-" value="{{data.image.url}}" />
+                                                <a href="#">
+                                                    {% if variant.image_id > 0 %}
+                                                    <img class="zoom-img" id="img-product-zoom"
+                                                        src="{{variant.image}}"
+                                                        data-zoom-image="{{variant.image}}"
+                                                        width="411" />
+                                                       
+                                                    {% else %}
+                                                    <img class="zoom-img" id="img-product-zoom"
+                                                        src="{{product.image.url}}"
+                                                        data-zoom-image="{{product.image.url}}"
+                                                        width="411" />
+                                                        {% endif %}
+                                                    <div id="gallery_01f" style="width:420px;float:right;">
+                                                </a>
+                                                <ul class="gallery-items owl-carousel owl-theme" id="gallery-slider">
+
+                                                    {% for images in images %}
+                                                    <li class="item">
+                                                        <a href="#" class="elevatezoom-gallery active" data-update=""
+                                                            data-image="{{images.image.url}}"
+                                                            data-zoom-image="{{images.image.url}}">
+                                                            <img src="{{images.image.url}}"
+                                                                width="100" /></a>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-7 col-xs-12 pl mt-5 d-block">
+                            <section class="product-info">
+                                <div class="product-headline">
+                                    <h1 class="product-title">
+                        
+                                    <input type="hidden" class="product-title-" value="{{data.title}}" />
+                                    {{data.title}}
+                                    </h1>
+                                    <div class="product-guaranteed text-success">
+                                       
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="product-attributes">
+                                    <div class="product-config">
+                                        <span class="product-title-en">{{data.title}}
+                                            </span>
+                                        <div class="product-rate">
+                                            <i class="fa fa-star active"></i>
+                                            <i class="fa fa-star active"></i>
+                                            <i class="fa fa-star active"></i>
+                                            <i class="fa fa-star active"></i>
+                                            <i class="fa fa-star active"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-config-wrapper">
+                                    <div class="product-directory">
+                                        <ul>
+                                            <li>
+                                                <span>
+                                                    <i class="fa fa-archive"></i> دسته:
+                                                </span>
+                                                <a href="#" class="product-link product-cat-title">{{data.category.title}}</a>
+                                            </li>
+
+                                            <li>
+                                                <span>
+                                                    <i class="fa fa-eye"></i> تعداد بازدید:
+                                                </span>
+                                                <a href="#" class="product-link product-cat-title">12</a>
+                                            </li>
+                                            
+                                            <li>
+                       
+                                                <span>
+                                                    <i class="fa fa-tags"></i> برچسب:
+                                                </span>
+                                                {% for tag in data.tags.all %}
+                                                <a href="{% url 'product_list2' tag.slug %}" class="product-link product-tag-title">{{tag.name}}</a>
+                                                {% endfor %}
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    برند:
+                                                </span>
+                                                <a href="#" class="product-link product-tag-title">{{data.brand.title}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col=lg-6 col-md-6 col-xs-12 pr">
+                                    {% if data.variant == 'Size-Color' %}
+                                        <div class="product-variants">
+                                            <span>سایز بندی: </span>
+                                            <ul class="js-product-variants">
+                                                <div class="size-option">
+                                                    <form method="POST" id="post-form">
+                                                        <input type="hidden" name="productid" id="productid" value="{{data.id}}">
+                                                        {% csrf_token %}
+                                                        <select name="size" id="size">
+                                                            {% for rs in sizes %}
+                                                                <option {% if variant.size_id == rs.size_id %} selected {% endif %} value="{{ rs.size_id }}">{{ rs.size.title }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </form>
+                                                </div>
+                                            </ul>
+                                        </div>
+
+
+                                        <div class="product-variants">
+                                            <span>رنگ بندی: </span>
+                                            <ul class="js-product-variants">
+                                                <form method="post" action="?q=selectvariant" id="post-color">
+                                                    {% csrf_token %}
+                                                    <div class="appendHere">
+                                                        <input type="hidden" name="size" id="size" value="{{variant.size_id}}">
+                                                        <ul class="color-option" >
+                                                            
+                                                            {% for rs in colors %}
+                                                                <input type="radio"  {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                                                <li  {% if variant.id == rs.id %} class="active" {% endif %}>
+                                                                    <a style="margin-right:3px;">
+                                                                         <span class="badge badge-secondary">{{ rs.color }}</span>
+                                                                    </a></br>
+                                                                    <img src="{{ rs.image }}" style="height: 40px; margin-left:10px;">
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                </form>
+                                            </ul>
+                                        </div>
+                                        
+                                        
+                                    {% elif data.variant == 'Size' %}
+                                        <div class="product-variants">
+                                            <span>سایز بندی: </span>
+                                            <ul class="js-product-variants">
+                                                <div class="size-option">
+                                                    <form method="POST" id="post-form">
+                                                        <input type="hidden" name="productid" id="productid" value="{{data.id}}">
+                                                        {% csrf_token %}
+                                                        <select name="size" id="size">
+                                                            {% for rs in sizes %}
+                                                                <option {% if variant.size_id == rs.size_id %} selected {% endif %} value="{{ rs.size_id }}">{{ rs.size.title }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </form>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    {% elif data.variant == 'Color' %}
+                                        <div class="product-variants">
+                                            <span>رنگ بندی: </span>
+                                            <ul class="js-product-variants">
+                                                <form method="post" action="?q=selectvariant" id="post-color">
+                                                    {% csrf_token %}
+                                                    <div class="appendHere">
+                                                        <input type="hidden" name="size" id="size" value="{{variant.size_id}}">
+                                                        <ul class="color-option" >
+                                                            
+                                                            {% for rs in colors %}
+                                                                <input type="radio"  {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
+                                                                <li  {% if variant.id == rs.id %} class="active" {% endif %}>
+                                                                    <a style="width: 50px">
+                                                                         {{ rs.color }} |
+                                                                    </a>
+                                                                    <img src="{{ rs.image }}" style="height: 40px">
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                </form>
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+                                        <div class="product-params pt-3">
+                                            <ul data-title="ویژگی‌های محصول">
+                                                <li>
+                                                    <span>ساخت کشور: </span>
+                                                    <span>{{data.name_of_country}}</span>
+                                                </li>
+
+                                                <li>
+                                                    <span>مدل محصول: </span>
+                                                    <span>{{data.model}}</span>
+                                                </li>
+
+                                                <li>
+                                                    <span>تاریخ ساخت محصول: </span>
+                                                    <span>{{data.date_of_made}}</span>
+                                                </li>
+                                                
+                                            </ul>
+                                        </div>
+                                        <div class="product-price-survey-question">
+                                            آیا قیمت مناسب‌تری سراغ دارید؟
+                                            <div class="answers">
+                                                <a href="#"
+                                                    class="product-price-survery-answer price-yes btn btn-secondary">بلی</a>
+                                                <a href="#"
+                                                    class="product-price-survery-answer price-no btn btn-secondary">خیر</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col=lg-6 col-md-6 col-xs-12 pr">
+                                        {% if  product.variant != 'None'   %}
+                                        <form method="POST" action = "/addtoshopcart/{{data.id}}">                                             
+                                        {% csrf_token %}
+                                        <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
+                                        <div class="product-seller-info">
+                                            <div class="seller-info-changable">
+                                                <div class="product-seller-row vendor">
+                                                    <span class="title"> فروشنده:</span>
+                                                    <a href="#" class="product-name">دیجی اسمارت</a>
+                                                </div>
+                                                <div class="product-seller-row guarantee">
+                                                    <span class="title"> گارانتی:</span>
+                                                    <a href="#" class="product-name">۱۸ ماهه دیجی اسمارت</a>
+                                                </div>
+                                                <div class="product-seller-row guarantee">
+                                                    <span class="title"> مشخصات:</span>
+                                                    <a href="#" class="product-name">اندازه :{{ variant.size }} &nbsp;&nbsp;&nbsp;  رنگ : {{ variant.color }} </a>
+                                                </div>
+                                                <div class="product-seller-row price">
+                                                    <span class="title"> قیمت:</span>
+                                                    <a href="#" class="product-name">
+                                                        <span class="amount">
+                                                            <b style = "font-size: 19px;" class ="product-price-">{{ variant.price| intcomma}}</b>
+                                                            <span>تومان</span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                                <div class="product-seller-row guarantee">
+                                                    <span class="title mt-3"> تعداد:</span>
+                                                    {% if data.amount == 0%}
+                                                    <div class="alert alert-danger text-center" role="alert">
+                                                        نا موجود
+                                                      </div>
+                                                    {% else %}
+                                                    <div class="quantity pl">
+                                                        <input name="quantity" id ="productQty" class="product-qty-" type="number" min="1" max="{{ variant.quantity }}" step="1" value="{{data.minamount}}">
+                                                        <div class="quantity-nav">
+                                                            <div class="quantity-button quantity-up">+</div>
+                                                            <div class="quantity-button quantity-down">-</div>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    
+                                                </div>
+                                                <input type="hidden" class="productid" name="productid" value="{{data.id}}" />
+                                                {% if data.amount == 0%}
+                                                {% else %}
+                                                {% if user.is_authenticated %}
+                                                <button style="border-radius: 25px;background-color:#FF5733;border-color:white;" type="submit" {% if variant.quantity < 1  %} disabled {% endif %} class="btn btn-primary btn btn-block text-center">{% if variant.quantity < 1  %} ناموجود {% else %} افزودن به سبد خرید  {% endif %}&nbsp;&nbsp;&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                {% else %}   
+                                                <button disabled style="border-radius: 25px;background-color:#FF5733;border-color:white;" type="submit" {% if variant.quantity < 1  %} disabled {% endif %} class="btn btn-primary btn btn-block text-center">{% if variant.quantity < 1  %} ناموجود {% else %} افزودن به سبد خرید  {% endif %}&nbsp;&nbsp;&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                {% endif %} 
+                                                </button>
+                                                {% endif %}
+                                            </br>
+                                            {% if user.is_authenticated %}
+                                            
+                                            {% else %}
+                                            <div class="alert alert-danger text-center" role="alert">
+                                                جهت اضافه کردن محصول به سبد خرید وارد <a href="{% url 'login' %}">حساب کاربری</a> خود شوید!
+                                              </div>
+                                            {% endif %}
+                                                
+                                            
+                                            </div>
+                                        </div>
+                                      </form>
+                                      {% else %}
+                                      <form method="POST" action = "/addtoshopcart/{{data.id}}">
+                                        <div class="product-seller-info">
+                                            <div class="seller-info-changable">
+                                                <div class="product-seller-row vendor">
+                                                    <span class="title"> فروشنده:</span>
+                                                    <a href="#" class="product-name">دیجی اسمارت</a>
+                                                </div>
+                                                <div class="product-seller-row guarantee">
+                                                    <span class="title"> گارانتی:</span>
+                                                    <a href="#" class="product-name">۱۸ ماهه دیجی اسمارت</a>
+                                                </div>
+
+                                                <div class="product-seller-row price">
+                                                    <span class="title"> قیمت:</span>
+                                                    <a href="#" class="product-name">
+                                                        <span class="amount">
+                                                            <b style = "font-size: 19px;" class ="product-price-">{{ data.price| intcomma}}</b>
+                                                            <span>تومان</span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            
+                                                {% csrf_token %}
+                                                <div class="product-seller-row guarantee">
+                                                    <span class="title mt-3"> تعداد:</span>
+                                                    {% if data.amount == 0%}
+                                                    <div class="alert alert-danger text-center" role="alert">
+                                                        نا موجود
+                                                      </div>
+                                                    {% else %}
+                                                    <div class="quantity pl">
+                                                        <input name="quantity" id ="productQty" class="product-qty-" type="number" min="{{data.minamount}}" max="{{data.amount}}" step="1" value="{{data.minamount}}">
+                                                        <div class="quantity-nav">
+                                                            <div class="quantity-button quantity-up">+</div>
+                                                            <div class="quantity-button quantity-down">-</div>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    
+                                                </div>
+                                                <input type="hidden" class="productid" name="productid" value="{{data.id}}" />
+                                                {% if data.amount == 0%}
+                                                {% else %}
+                                                <button type="submit" {% if data.amount < 1  %} disabled {% endif %}  class="btn btn-primary btn btn-block">افزودن به سبد خرید&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-shopping-cart" aria-hidden="true"></i>    
+                                                </button>
+                                                {% endif %}
+                                            </br>
+                                                {% if messages %}
+                                                {% for message in messages %}
+                                                   <div class="alert alert-{{message.tags}}" role="alert">
+                                                        {{ message |safe }}
+                                                   </div>
+                                               {% endfor %}
+                                                {% endif %}
+                                            
+                                            </div>
+                                        </div>
+                                      </form>
+                                      {% endif %}
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="tabs">
+                <div class="tab-box">
+                    <ul class="tab nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="Review-tab" data-toggle="tab" href="#Review" role="tab"
+                                aria-controls="Review" aria-selected="true">
+                                <i class="mdi mdi-glasses"></i>
+                                نقد و بررسی
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="Specifications-tab" data-toggle="tab" href="#Specifications"
+                                role="tab" aria-controls="Specifications" aria-selected="false">
+                                <i class="mdi mdi-format-list-checks"></i>
+                                مشخصات
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="User-comments-tab" data-toggle="tab" href="#User-comments"
+                                role="tab" aria-controls="User-comments" aria-selected="false">
+                                <i class="mdi mdi-comment-text-multiple-outline"></i>
+                                نظرات کاربران
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="question-and-answer-tab" data-toggle="tab"
+                                href="#question-and-answer" role="tab" aria-controls="question-and-answer"
+                                aria-selected="false">
+                                <i class="mdi mdi-comment-question-outline"></i>
+                                پرسش و پاسخ
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg">
+                    <div class="tabs-content">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="Review" role="tabpanel"
+                                aria-labelledby="Review-tab">
+                                <h2 class="params-headline">نقد و بررسی اجمالی</h2>
+                                <section class="content-expert-summary">
+                                    <div class="mask pm-3">
+                                        <div class="mask-text">
+                                            <p>{{data.specs|safe}}</p>
+                                        </div>
+                                        <a href="#" class="mask-handler">
+                                            <span class="show-more">+ ادامه مطلب</span>
+                                            <span class="show-less">- بستن</span>
+                                        </a>
+                                        <div class="shadow-box"></div>
+                                    </div>
+                                </section>
+                                
+                                <div class="content-expert-articles">
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="Specifications" role="tabpanel"
+                                aria-labelledby="Specifications-tab">
+                                <article>
+                                    <h2 class="params-headline">مشخصات فنی
+                                        <span>{{data.title}}</span>
+                                    </h2>
+                                    <section>
+                                        <ul class="params-list">
+                                            <li class="params-list-item">
+                                                <div class="params-list-key">
+                                                    <span class="block">کشور سازنده</span>
+                                                </div>
+                                                <div class="params-list-value">
+                                                    <span class="block">
+                                                    {{data.name_of_country}}
+                                                    </span>
+                                                </div>
+                                            </li>
+
+                                            <li class="params-list-item">
+                                                <div class="params-list-key">
+                                                    <span class="block">مدل محصول</span>
+                                                </div>
+                                                <div class="params-list-value">
+                                                    <span class="block">
+                                                    {{data.model}}
+                                                    </span>
+                                                </div>
+                                            </li>
+
+                                            <li class="params-list-item">
+                                                <div class="params-list-key">
+                                                    <span class="block">تاریخ ساخت محصول</span>
+                                                </div>
+                                                <div class="params-list-value">
+                                                    <span class="block">
+                                                    {{data.date_of_made}}
+                                                    </span>
+                                                </div>
+                                            </li>
+                                         
+                                        </ul>
+                                    </section>
+                                    
+                                </article>
+                            </div>
+                            <div class="tab-pane fade" id="User-comments" role="tabpanel"
+                                aria-labelledby="User-comments-tab">
+                                <div class="comments">
+                                    <h2 class="params-headline">امتیاز کاربران به
+                                        <span>Samsung Galaxy Note 10 Dual SIM 256GB Mobile Phone</span>
+                                    </h2>
+                                    <div class="comments-summary">
+                                        <div class="col-lg-6 col-md-6 col-xs-12 pr">
+                                            
+                                        </div>
+                                        <div class="col-lg-12 col-md-6 col-xs-12 pr">
+                                            <div class="comments-summary-note">
+                                                <h6>شما هم می‌توانید در مورد این کالا نظر بدهید.</h6>
+                                                <p>
+                                                    برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود شوید. اگر این
+                                                    محصول را قبلا از دیجی‌کالا خریده باشید،
+                                                    نظر
+                                                    شما به عنوان مالک محصول ثبت خواهد شد.
+                                                </p>
+                                                <p class ="my-3">میانگین امتیاز به این محصول -    <span class ="avg-rating">{{avg_reviews.avg_rating}}</span>/5<i class="fa fa-star active"></i></p>
+                                                
+                                                <a href="#" class="btn-add-comment btn btn-secondary" data-toggle="modal" data-target="#exampleModal">افزودن نظر
+                                                    جدید</a>
+                                                    <!-- Modal -->
+<div class="modal fade"  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">ثبت دیدگاه</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method ="POST" id = "addForm" action="{% url 'save_review' data.id%}">
+            {% csrf_token %}
+        <div class="modal-body">
+            {% load crispy_forms_tags %}
+            
+            <p style="background-color:#98FB98;text-align: center;" class="ajaxRes"></p>
+            <label for="exampleFormControlTextarea1">دیدگاه خود را در مورد محصول مطرح نمایید</label>
+               </br>
+            {{ form|crispy }}
+            {% if user.is_authenticated %}
+            <div class="modal-footer">        
+                <button type="submit" class="btn btn-primary">ثبت نظر</button>
+                <input style="background-color:white;" type="reset" value="" id="resete" />
+            </div>
+            {% else %}
+            
+                <div class="alert alert-danger" role="alert">
+                    برای ثبت نظر باید وارد حساب کاربری خود شوید!&nbsp;&nbsp;<a href="{% url 'login' %}">اینجا</a> کلیک کنید.
+                  </div>
+           
+            {% endif %}
+        </div>
+        
+        </form>
+      </div>
+    </div>
+  </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-comment-list">
+                                            <ul class="comment-list">
+                                                {% if reviews %}
+                                                {% for review in reviews %}
+                                                <li>
+                                                    <div class="col-lg-3 pr">
+                                                        <section>
+                                                            <div class="comments-user-shopping">{{review.user.first_name}} {{review.user.last_name}}
+                                                                <div class="cell-date">
+                                                                    در تاریخ ۱۸ فروردین ۱۳۹۹
+                                                                </div>
+                                                                {% if review.recommend == 'خرید این محصول را توصیه می‌کنم' %}
+                                                                <div style="background-color:#7FFF00;" class="message-light"><i
+                                                                        class="fa fa-thumbs-o-up"></i>خرید این محصول را
+                                                                    توصیه می‌کنم</div>
+                                                                </div>
+                                                                {% else %}
+                                                                <div style="background-color:#FF1493;" class="message-light"><i
+                                                                class="fa fa-thumbs-o-down"></i>خرید این محصول را
+                                                                توصیه نمیکنم</div>
+                                                                </div>
+                                                                {% endif %}
+                                                            
+                                                        </section>
+                                                    </div>
+                                                    <div class="col-lg-9 pl">
+                                                        <div class="article">
+                                                            <ul class="comment-text">
+                                                                <div class="header">
+                                                                    <div>بهتر از آیفون</div>
+                                                                    <div class="product-rate pl">
+                                                                        {% for star in review.review_rating|ljust:review.review_rating %}
+                                                                        <i class="fa fa-star active"></i>
+                                                                        {% endfor %} 
+                                                                    </div>
+                                                                    <p>{{review.review_text}}</p>
+                                                                </div>
+                                                                <div class="comments-evaluation">
+                                                                    
+                                                                    <div class="footer">
+                                                                        <div class="comments-likes">آیا این نظر برایتان
+                                                                            مفید بود؟
+                                                                            <button class="btn-like js-comment-like"
+                                                                                type="submit"><span class="like-dislike-btn" data-pk = '{{review.id}}' href="{% url 'api-like' review.id %}" class="count"><i class="fa fa-thumbs-up text-success" aria-hidden="true"></i></span>
+                                                                                <span class="count" id = "like-count-{{review.id}}">{{review.likes.count}}</span>
+                                                                            </button>
+                                                                            <button class="btn-like js-comment-dislike"
+                                                                                type="submit"><span class="like-dislike-btn" data-pk = '{{review.id}}' href="{% url 'api-dislike' review.id %}" class="count"><i class="fa fa-thumbs-down text-danger" aria-hidden="true"></i></span>
+                                                                                <span class="count" id = "dislike-count-{{review.id}}">{{review.dislikes.count}}</span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                {% endfor %}
+                                                {% else %}
+                                                <div class="container-main">
+                                                    <div class="d-block">
+                                                        <div class="main-row">
+                                                            <section class="cart-home">
+                                                                <div class="post-item-cart d-block order-2">
+                                                                    <div class="content-page">
+                                                                        <div class="cart-form">
+                                                                            <div class="cart-empty text-center d-block">
+                                                                                <div class="cart-empty-img mb-4 mt-4">
+                                                                                    <img style ="width:250px;height:250px" src="{% static 'assets4/images/no_comment.jpg' %}">
+                                                                                </div>
+                                                                                <p class="cart-empty-title">اولین کامنت را شما بگذارید.</p>
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </section>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                             <!-- Modal -->
+                             <div class="modal fade"  id="exampleModal-comment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">ثبت دیدگاه</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <form method ="POST" id = "addFormComment" action="{% url 'save_comment' data.id%}">
+                                        {% csrf_token %}
+                                    <div class="modal-body">
+                                        {% load crispy_forms_tags %}
+                                        
+                                        <p style="background-color:#98FB98;text-align: center;" class="ajaxRess"></p>
+                                        <label for="exampleFormControlTextarea1">دیدگاه خود را در مورد محصول مطرح نمایید</label>
+                                           </br>
+                                        {{ comment_form|crispy }}
+                                        <div class="modal-footer">        
+                                            <button type="submit" class="btn btn-primary">ثبت نظر</button>
+                                            <input style="background-color:white;" type="reset" value="" id="resete" />
+                                        </div>
+                                     
+                                    </div>
+                                    
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            <!-- Modal -->
+
+
+
+
+
+                            <div class="tab-pane fade" id="question-and-answer" role="tabpanel"
+                                aria-labelledby="question-and-answer-tab">
+                                    <div class="faq">
+                                        <h2 class="params-headline">پرسش و پاسخ
+                                            <span>پرسش خود را در مورد محصول مطرح نمایید</span>
+                                        </h2>
+                                            <div class="form-faq-row mt-4">
+                                                <div class="form-faq-col form-faq-col-submit text-center">
+                                                    <button type="submit" class="btn btn-primary col-lg-5 show-form" data-toggle="modal" data-target="#exampleModal-comment">
+                                                        <span class="fa fa-plus"></span>
+                                                        ثبت پرسش
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        <div class="review-list">
+                                        {% for comment in comment %}
+                                        <div id="product-questions-list" >
+                                            <div class="questions-list">
+                                                <ul class="faq-list">
+                                                    <li class="is-question">
+                                                        <div class="section">
+                                                            <div class="faq-header">
+                                                                <span class="icon-faq">?</span>
+                                                                <p class="h5">
+                                                                    پرسش :
+                                                                    <span>{{comment.name}} {{comment.family}}</span>
+                                                                </p>
+                                                            </div>
+                                                            <p>{{comment.text_comment}}</p>
+                                                            <div class="faq-date">
+                                                                <em>{{comment.add_time}}</em>
+                                                            </div>
+                                                            <a href="#" class="js-add-answer-btn">به این پرسش پاسخ
+                                                                دهید </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                              
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- arshive-product------------------------>
+    <div class="col-lg-12 col-md-12 col-xs-12 pr order-1 d-block">
+            <div class="slider-widget-products slider-content-tabs">
+                <div class="widget widget-product card slider-content-tabs">
+                    <header class="card-header header-product">
+                        <span class="title-one">محصولات مشابه</span>
+                        <h3 class="card-title"></h3>
+                    </header>
+                    <div class="product-carousel owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage"
+                                style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1534px;">
+                                {% for product in similar_products %}
+                            <div class="owl-item active tab-item" style="width: 309.083px; margin-left: 10px;">
+                                <div class="item">
+                                    <a href="/product_detail/{{product.slug}}/{{product.id}}" class="d-block hover-img-link" data-toggle=""
+                                        data-target="#exampleModal">
+                                        <img style="height:205px;" src="{{product.image.url}}" class="img-fluid"
+                                            alt="">
+                                            <span class="icon-view">
+                                                <strong><i class="fa fa-eye"></i></strong>
+                                            </span>
+                                    </a>
+                                    <input  class="product-qty-{{product.id}}" type="hidden" value="1">
+                                    
+                                    <input type="hidden" class="product-image-{{product.id}}" value="{{product.productattribute_set.all.0.image.url}}" />
+                                    <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
+                                    <h2 class="post-title">
+                                        <a href="#">
+                                            <input type="hidden" class="product-title-{{product.id}}" value="{{product.title}}" />
+                                           {{product.title}}
+                                        </a>
+                                    </h2>
+                                    <div class="price">
+                                        {% if product.discount_price > 0 %}
+                                        <del><span>{{product.price|intcomma}}<span>تومان</span></span></del>
+                                        <b  style = "font-size: 19px;display:none;" class ="product-price-{{product.id}}">{{product.price}}</b>
+                                        {% if product.amount == 0 %}
+                                        <b  style = "font-size: 19px;" class ="text-danger">ناموجود</b>
+                                        {% else %}
+                                        <b  style = "font-size: 19px;" class ="">{{product.discount_price|intcomma}}</b>
+                                        {% endif %}
+                                        <span>تومان</span>
+                                        {% else %}
+                                        <del style="color:white;"><span><span>&nbsp;</span></span></del>
+                                        <b  style = "font-size: 19px;display:none;" class ="product-price-{{product.id}}">{{product.price}}</b>
+                                        {% if product.amount == 0 %}
+                                        <b  style = "font-size: 19px;" class ="text-danger">ناموجود</b>
+                                        {% else %}
+                                        <b  style = "font-size: 19px;" class ="">{{product.price|intcomma}}</b>
+                                        {% endif %}
+                                        <span>تومان</span>
+
+                                        {% endif %}
+                                        
+                                            
+                                    </div>
+                                    <div class="actions">
+                                        <ul>
+                                            {% if user.is_authenticated %}
+                                            <li class="action-item like">
+                                                <button class="btn btn-light add-product-wishes add-wishlist" data-product={{product.id}} type="submit">
+                                                    <i class="fa fa-heart-o"></i>
+                                                </button>
+                                            </li>
+                                            {% endif %}
+                                            <li class="action-item compare">
+                                                <button class="btn btn-light btn-compare" type="submit">
+                                                    <i class="fa fa-random"></i>
+                                                </button>
+                                            </li>
+                                            <li class="action-item add-to-cart">
+                                                <button class="btn btn-light btn-add-to-cart add-to-cartt" data-index="{{product.id}}" type="submit">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer-------------------------------->
+    <footer class="footer-main-site">
+        <section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+            <div class="footer-shopping-features">
+                <div class="container-fluid">
+                    <div class="col-12">
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/delivery-truck.svg' %}" width="50"
+                                    alt="تحویل اکسپرس" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">تحویل اکسپرس</span>
+                            <span class="desc-shopping">در کمترین زمان دریافت کنید</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/24-hours-support.svg' %}" width="50"
+                                    alt="پشتیبانی ۲۴ ساعته" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">پشتیبانی ۲۴ ساعته</span>
+                            <span class="desc-shopping">پشتیبانی هفت روز هفته</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/income.svg' %}" width="50" alt="پرداخت در محل"
+                                    class="img-shopping">
+                            </span>
+                            <span class="title-shopping">پرداخت در محل</span>
+                            <span class="desc-shopping">هنگام دریافت پرداخت کنید</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/easy-return.svg' %}" width="50"
+                                    alt="۷ روز ضمانت بازگشت" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">۷ روز ضمانت بازگشت</span>
+                            <span class="desc-shopping">هفت روز مهلت دارید </span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/original.svg' %}" width="50"
+                                    alt="ضمانت اصل‌بودن کالا" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">ضمانت اصل‌بودن کالا</span>
+                            <span class="desc-shopping">تایید اصالت کالا</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+            <div class="container-fluid">
+                <div class="col-12">
+                    <div class="footer-middlebar">
+                        <div class="col-lg-8 d-block pr">
+                            <div class="footer-links">
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    با تجارت ایرانیان 
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        تماس با ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       درباره ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       سبد خرید
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        ثبت نام در سامانه
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    با تجارت ایرانیان 
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        تماس با ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       درباره ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       سبد خرید
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        ثبت نام در سامانه
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    شرکت بازرگانی تجارت ایرانیان
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        شرکت بازرگانی تجارت ایرانیان وارد کننده پیشرفته ترین تجهیزات لاغری و موضعی شکم و پهلو تناسب اندام
+                                                    </a>
+                                                </li>
+                                                
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-block pl">
+                            <div class="shortcode-widget-area">
+                                <form action="#" class="form-newsletter">
+                                    <fieldset>
+                                        <span class="form-newsletter-title"> با عضویت در خبرنامه از آخرین اخبار و
+                                            محصولات سایت مطلع شوید...</span>
+                                        <div class="input-group-newsletter">
+                                            <input type="email" class="input-field form-control"
+                                                placeholder="آدرس ایمیل خود را وارد کنید">
+                                            <button class="btn btn-info btn-secondary" type="submit">ارسال</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="footer-more-info">
+                            
+                            
+                            <div class="footer-copyright">
+                                <div class="footer-copyright-text">
+                                    <p>تمامی مطالب، عکس ها و... متعلق به سایت تجارت ایرانیان می باشد.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </footer>
+    <!-- footer------------------------------------------->
+    <!-- scroll_Progress------------------------->
+    <div class="progress-wrap">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        </svg>
+    </div>
+    <!-- scroll_Progress------------------------->
+    
+
+</body>
+<!-- file js---------------------------------------------------->
+<script src="{% static  'assets4/js/vendor/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static  'assets4/js/vendor/bootstrap.js' %}"></script>
+<script>
+    $(document).on('change', '#post-form',function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'{% url "ajaxcolor" %}',
+            data:{
+                productid:$('#productid').val(),
+                size:$('#size').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                action: 'POST'
+            },
+            data_type : 'html',
+            success: function (data) {
+                console.log(data);
+                $('.appendHere').html(data.rendered_table);
+            },
+            error: function (data) {
+                alert("Got an error dude " + data);
+            }
+        });
+    });
+</script>
+<!-- plugin------------------------------------------------------>
+<script src="{% static  'assets4/js/vendor/owl.carousel.min.js' %}"></script>
+<script src="{% static  'assets4/js/vendor/jquery.countdown.js' %}"></script>
+<script src="{% static  'assets4/js/vendor/lightgallery-all.js' %}"></script>
+<script src="{% static  'assets4/js/vendor/jquery.ez-plus.js' %}"></script>
+<script src="{% static  'assets4/comment.js' %}"></script>
+<script src="{% static 'assets4/delete_cart_home.js' %}"></script>
+<script src="{% static  'assets4/js/vendor/jquery.nice-select.min.js' %}"></script>
+<!--<script src="{% static  'assets4/Add_to_cart.js' %}"></script>!-->
+<script src="{% static  'assets4/review.js' %}"></script>
+<script>
+	function get_likes_dislikes(link, id) {
+		$.ajax({
+			url: link,
+			success: function(s) {
+				if (s.status) {
+					$('#like-count-' + id).html(s.likes)
+					$('#dislike-count-' + id).html(s.dislikes)
+				} else {
+					//$('#alert-login-' + id).css({'display': 'inline'})
+                    alert("لطفا وارد حساب کاربری خود شوید.")
+				}
+			},
+			error: function(e) {
+				alert("لطفا وارد حساب کاربری خود شوید.")
+			}
+		})
+	}
+
+
+	$(".like-dislike-btn").click(function(e){
+		e.preventDefault()
+		var id = $(this).attr("data-pk")
+		var link = "/api/" + id
+		var url = $(this).attr("href")
+		$.ajax({
+			url: url,
+			success: function(success) {
+				get_likes_dislikes(link, id)
+			},
+			error: function(error) {
+				alert("لطفا وارد حساب کاربری خود شوید.")
+			}
+		})
+	})
+</script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+{% for message in messages %}
+{% if message.tags == 'error' %}
+<script>
+  alertify.set('notifier','position', 'top-center');
+  alertify.error('{{message}}');
+</script>>
+{% else %}
+<script>
+  alertify.set('notifier','position', 'top-center');
+  alertify.success('{{message}}');
+</script>>
+{% endif %}
+{% endfor %}
+<!-- main js---------------------------------------------------->
+<script src="{% static  'assets4/js/main.js' %}"></script>
+</html>

@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه اینترنتی کالا مارکت</title>
+    <!-- font---------------------------------------->
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/materialdesignicons.css' %}">
+    <!-- plugin-------------------------------------->
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/jquery.jqZoom.css' %}">
+    <!-- main-style---------------------------------->
+    <link rel="stylesheet" href="{% static 'assets4/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/responsive.css' %}">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.rtl.min.css"/>
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.rtl.min.css"/>
+    <script type="text/javascript">!function(){function t(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,localStorage.getItem("rayToken")?t.src="https://app.raychat.io/scripts/js/"+o+"?rid="+localStorage.getItem("rayToken")+"&href="+window.location.href:t.src="https://app.raychat.io/scripts/js/"+o+"?href="+window.location.href;var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}var e=document,a=window,o="0733e87f-e10d-40d2-b6a7-81b2e94ed3a6";"complete"==e.readyState?t():a.attachEvent?a.attachEvent("onload",t):a.addEventListener("load",t,!1)}();</script>
+</head>
+
+<body>
+
+{% block content %}
+
+<style type="text/css">
+	.marked{
+		display: none;
+	}
+</style>
+{% endblock content %}
+
+
+</body>
+<!-- file js---------------------------------------------------->
+<script src="{% static 'assets4/js/vendor/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/bootstrap.js' %}"></script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+{% for message in messages %}
+{% if message.tags == 'error' %}
+<script>
+  alertify.set('notifier','position', 'top-center');
+  alertify.error('{{message}}');
+</script>>
+{% else %}
+<script>
+  alertify.set('notifier','position', 'top-center');
+  alertify.success('{{message}}');
+</script>>
+{% endif %}
+{% endfor %}
+<!-- plugin------------------------------------------------------>
+<script src="{% static 'assets4/js/vendor/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/jquery.countdown.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/jquery.jqZoom.js' %}"></script>
+<script src="{% static  'assets4/Add_to_cart.js' %}"></script>
+<script src="{% static 'assets4/active-address.js' %}"></script>
+<script src="{% static 'assets4/delete_wishlist.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="css/BYekan.ttf">
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".ajaxRes").hide();
+		setInterval(function(){
+			$.ajax({
+				url:"{% url 'get_notifs' %}",
+				dataType:'json',
+				beforeSend:function(){
+					$(".ajaxRes").show();
+					$(".ajaxRes").text('Loading...');
+				},
+				success:function(res){
+					_html='';
+					$(".totalunread").text(res.totalUnread);
+					$.each(res.data,function(index,d){
+						if(d.notifStatus==true){
+            _html+='<li style="color:blue;" class="list-group-item bg-light list'+d.pk+'">'+d.notify_detail+'<button data-index="'+d.pk+'" data-notif="'+d.pk+'" class="btn btn-sm btn-secondary float-left markreadbtn markreadbtn'+d.pk+'"" style="display:none;"></button><button class="float-left btn btn-success btn-sm marked'+d.pk+'"><i class="fa fa-check" aria-hidden="true"></i></button></li> </br>';
+						}else{
+            _html+='<li style="color:blue;" class="list-group-item bg-light list'+d.pk+'">'+d.notify_detail+'<button data-index="'+d.pk+'" data-notif="'+d.pk+'" class="btn btn-sm btn-warning float-left markreadbtn markreadbtn'+d.pk+'""><i class="fa fa-eye" aria-hidden="true"></i></button><button style="display:none;" class="float-left btn btn-success btn-sm marked marked'+d.pk+'"><i class="bi bi-check-square"></i></button></li> </br>';
+						}
+					});
+					$(".notif-list").html(_html);
+					$(".ajaxRes").hide();
+				}
+			});
+		},3000);
+
+		// MarkRead Section Start
+		$(document).on("click",".markreadbtn",function(){
+			var _index=$(this).attr('data-index');
+			var _notif=$(this).attr('data-notif');
+
+			$.ajax({
+				url:"{% url 'mark_read_notif' %}",
+				data:{
+					notif:_notif
+				},
+				dataType:'json',
+				beforeSend:function(){
+					
+				},
+				success:function(res){
+					if(res.bool==true){
+						$(".list"+_index).removeClass('bg-light');
+						$(".markreadbtn"+_index).hide();
+						$(".marked"+_index).show();
+					}
+				}
+			});
+		});
+		// End
+
+	});
+</script>
+    
+
+<script type ="text/javascript">
+    const labels = {{monthNumber|safe}};
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'سفارشات پرداخت شده در ماه اخیر',
+      backgroundColor: [
+      'rgba(216, 27, 96, 0.6)',
+
+      'rgba(3, 169, 244, 0.6)',
+
+      'rgba(255, 152, 0, 0.6)',
+
+      'rgba(29, 233, 182, 0.6)',
+
+      'rgba(156, 39, 176, 0.6)',
+
+      'rgba(84, 110, 122, 0.6)'],
+      borderColor: [
+      'rgba(216, 27, 96, 1)',
+
+      'rgba(3, 169, 244, 1)',
+
+      'rgba(255, 152, 0, 1)',
+
+      'rgba(29, 233, 182, 1)',
+
+      'rgba(156, 39, 176, 1)',
+
+      'rgba(84, 110, 122, 1)'
+      ],
+      data: {{totalOrders}},
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+        plugins: {
+            legend: {
+                labels: {
+                    // This more specific font property overrides the global property
+                    font: {
+                        family: 'BYekan',
+                    },
+                   
+                }
+            }
+        }
+    }
+  };
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );   
+
+</script>
+<!-- main js---------------------------------------------------->
+<script src="{% static 'assets4/js/main.js' %}"></script>
+
+</html>

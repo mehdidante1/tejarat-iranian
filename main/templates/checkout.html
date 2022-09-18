@@ -1,0 +1,440 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanizelib %}
+{% block content %}
+
+
+<body>
+    <!-- header-------------------------------->
+{% include 'header.html' %}
+    <!-- header-------------------------------->
+
+    <!-- checkout------------------------------>
+    <div class="container-main">
+        <div class="d-block">
+            <section class="blog-checkout d-block order-1">
+                <div class="col-lg">
+                    <div class="checkout woocommerce-checkout">
+                        <div class="content-checkout container">
+                            <div class="notices-wrapper">
+                                <div class="col-12">
+                                    <div class="form-coupon-toggle">
+                                        <div class="info">
+                                            کد تخفیف دارید؟
+                                            <a href="#" class="showcoupon">برای نوشتن کد اینجا کلیک کنید</a>
+                                        </div> 
+                                        <div class="checkout-coupon form-coupon">
+                                            <p>اگر کد تخفیف دارید، لطفا وارد کنید.</p>
+                                            <form method="POST" class="form-coupon">
+                                                {% csrf_token %}
+                                                <div class="form-row">
+                                                    <input type="text" name="code" class="checkout-discount-code"
+                                                        placeholder="کد تخفیف">
+                                                    <div class="append pl">
+                                                        <button class="btn-append btn btn-primary" type="submit">اعمال
+                                                            تخفیف</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="middle-container">
+                                <form  method="POST" class="form-checkout">
+                                    {% csrf_token %}
+                                    <div class="col2-set" id="customer-details">
+                                        <div class="col-12">
+                                            <div class="billing-fields mt-4">
+                                                <h4>جزئیات صورتحساب</h4>
+                                                <div class="form-checkout-row">
+                                                    <div class="validate-required">
+                                                        <label for="name">نام <abbr class="required"
+                                                                title="ضروری" style="color:red;">*</abbr></span></label>
+                                                        <input name="first_name" value="{{user.first_name}}" type="text" id="name"
+                                                            class="input-name-checkout form-control">
+                                                    </div>
+
+                                                    <div class="validate-required">
+                                                        <label for="name">نام خانوادگی<abbr class="required"
+                                                                title="ضروری" style="color:red;">*</abbr></span></label>
+                                                        <input name="last_name" value="{{user.last_name}}" type="text" id="name"
+                                                            class="input-name-checkout form-control">
+                                                    </div>
+
+                                                    <div class="validate-required">
+                                                        <label for="phone-number">شماره موبایل <abbr class="required"
+                                                                title="ضروری" style="color:red;">*</abbr></label>
+                                                        <input name="phone" value="{{profile.mobile}}" type="number" id="phone-number"
+                                                            class="input-name-checkout form-control text-left">
+                                                    </div>
+
+                                                    <div class="validate-required">
+                                                        <label for="post-code">کد پستی <abbr class="required"
+                                                                title="ضروری" style="color:red;">*</abbr></label>
+                                                        <input name="postal_code" value="{{profile.postal_code}}" type="number" id="post-code"
+                                                            class="input-name-checkout form-control"
+                                                            placeholder="کد پستی را بدون خط تیره بنویسید">
+                                                    </div>
+
+                                                    
+                                                    <div class="validate-required">
+                                                        <label for="province">استان
+                                                            <abbr class="required" title="ضروری"
+                                                                style="color:red;">*</abbr>
+                                                        </label>
+                                                        <select name="city" id="province"
+                                                            class="form-control">
+                                                            {% if profile.city %}
+                                                            <option value="{{profile.city}}"
+                                                                >{{profile.city}}
+                                                                </option>
+                                                            {% else %}
+                                                            <option value="date-desc"
+                                                                selected="selected">استان مورد
+                                                                نظر خود را انتخاب کنید </option>
+                                                            {% endif %}
+                                                            <option value="date-asc">تهران
+                                                            </option>
+                                                            <option value="rate">مشهد</option>
+                                                            <option value="views">اصفهان
+                                                            </option>
+                                                            <option value="comments">شیراز
+                                                            </option>
+                                                        </select>
+                                                        <label for="bld-num">پلاک
+                                                            <abbr class="required" title="ضروری"
+                                                                style="color:red;">*</abbr>
+                                                        </label>
+                                                        <input required name="tag" value="{{profile.tag}}" type="number" id="bld-num"
+                                                            class="input-name-checkout js-input-bld-num form-control">
+
+                                                    </div>
+                                                    <div class="validate-required">
+                                                        <label for="province">کشور
+                                                            <abbr class="required" title="ضروری"
+                                                                style="color:red;">*</abbr>
+                                                        </label>
+                                                        <select name="country" id="province"
+                                                            class="form-control">
+                                                            {% if profile.country %}
+                                                            <option value="{{profile.country}}"
+                                                                >{{profile.country}}
+                                                                </option>
+                                                            {% else %}
+                                                            <option value="date-desc"
+                                                                selected="selected">استان مورد
+                                                                نظر خود را انتخاب کنید </option>
+                                                            {% endif %}
+                                                            <option value="rate">مشهد</option>
+                                                            <option value="views">اصفهان
+                                                            </option>
+                                                            <option value="comments">شیراز
+                                                            </option>
+                                                        </select>
+                                                        <label for="bld-num">واحد
+                                                            <abbr class="required" title="ضروری"
+                                                                style="color:red;">*</abbr>
+                                                        </label>
+                                                        <input required name="vahed" value="{{profile.vahed}}" type="text" id="bld-num"
+                                                            class="input-name-checkout js-input-bld-num form-control">
+
+                                                    </div>
+                                                    <div class="validate-required">
+                                                        <label for="phone-number">شماره ثابت <abbr class="required"
+                                                                title="ضروری" style="color:red;">*</abbr></label>
+                                                        <input required name="phone_2" value ="{{profile.phone_2}}" type="text" id="phone-number"
+                                                            class="input-name-checkout form-control text-left">
+                                                    </div>
+                                                    <div class="validate-required">
+                                                        <label for="Street">آدرس <abbr class="required" title="ضروری"
+                                                                style="color:red;">*</abbr></label>
+                                                        <input required name="address" value="{{profile.address}}" type="text" id="post-code"
+                                                            class="input-name-checkout form-control">
+                                                    </div>
+                                                   
+                                                
+
+                                                    <label for="address">توضیحات سفارش
+                                                        <span class="optional">(اختیاری)</span>
+                                                    </label>
+                                                    <textarea rows="5" cols="30" id="address"
+                                                        class="textarea-name-checkout form-control"
+                                                        placeholder="یادداشت ها درباره سفارش شما ، برای مثال نکات مهم برای تحویل بار "></textarea>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 class="order-review-heading">سفارش شما</h3>
+                                    <div class="checkout-review-order">
+                                        <table class="checkout-review-order-table table table-borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="product-name">محصول</th>
+                                                    <th scope="col" class="product-price">قیمت کل</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for rs in shopcart %}
+                                                <tr class="checkout-cart-item">
+                                                    
+                                                    <td class="product-name">{{rs.product}}</td>
+                                                    <td class="product-price text-info">
+                                                        {% if rs.product.variant == 'None' %}
+                                                        <span class="amount">{{rs.product.price|intcomma}}
+                                                        {% else %}
+                                                        <span class="amount">{{rs.variant.price|intcomma}}
+                                                        {% endif %}
+                                                            <span>تومان</span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                            <tfoot>
+
+                                                <tr class="cart-subtotal">
+                                                    <th>مجموع</th>
+                                                    <td>
+                                                        <span class="amount">{{total|intcomma}}
+                                                            <span>تومان</span>
+                                                        </span>
+                                                    </td>
+                                                </tr>  
+                                                
+                                                {% if total_price_after_discount %}
+                                                <tr class="cart-discount">
+                                                    <th>تخفیف شما از این خرید</th>
+                                                    <td data-title=" تخفیف شما از این خرید ">
+                                                        <div class="price">
+                                                            <del>
+                                                                <span>{{total}}
+                                                                    <span>تومان</span>
+                                                                </span>
+                                                            </del>
+                                                            <ins>
+                                                                <span class="amount">{{total_price_after_discount|intcomma}}
+                                                                    <span>تومان</span>
+                                                                </span>
+                                                            </ins>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {% endif %}
+                                            </tfoot>
+                                        </table>
+                                       
+                                    
+                                        <button type="submit" class="btn-Order btn btn-primary mt-4 mb-3">ثبت
+                                            سفارش</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- checkout------------------------------>
+
+    <!-- footer-------------------------------->
+    <footer class="footer-main-site">
+        <section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+            <div class="footer-shopping-features">
+                <div class="container-fluid">
+                    <div class="col-12">
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/delivery-truck.svg' %}" width="50"
+                                    alt="تحویل اکسپرس" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">تحویل اکسپرس</span>
+                            <span class="desc-shopping">در کمترین زمان دریافت کنید</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/24-hours-support.svg' %}" width="50"
+                                    alt="پشتیبانی ۲۴ ساعته" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">پشتیبانی ۲۴ ساعته</span>
+                            <span class="desc-shopping">پشتیبانی هفت روز هفته</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/income.svg' %}" width="50" alt="پرداخت در محل"
+                                    class="img-shopping">
+                            </span>
+                            <span class="title-shopping">پرداخت در محل</span>
+                            <span class="desc-shopping">هنگام دریافت پرداخت کنید</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/easy-return.svg' %}" width="50"
+                                    alt="۷ روز ضمانت بازگشت" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">۷ روز ضمانت بازگشت</span>
+                            <span class="desc-shopping">هفت روز مهلت دارید </span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/original.svg' %}" width="50"
+                                    alt="ضمانت اصل‌بودن کالا" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">ضمانت اصل‌بودن کالا</span>
+                            <span class="desc-shopping">تایید اصالت کالا</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+            <div class="container-fluid">
+                <div class="col-12">
+                    <div class="footer-middlebar">
+                        <div class="col-lg-8 d-block pr">
+                            <div class="footer-links">
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    با تجارت ایرانیان 
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        تماس با ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       درباره ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       سبد خرید
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        ثبت نام در سامانه
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    با تجارت ایرانیان 
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        تماس با ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       درباره ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       سبد خرید
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        ثبت نام در سامانه
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    شرکت بازرگانی تجارت ایرانیان
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        شرکت بازرگانی تجارت ایرانیان وارد کننده پیشرفته ترین تجهیزات لاغری و موضعی شکم و پهلو تناسب اندام
+                                                    </a>
+                                                </li>
+                                                
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-block pl">
+                            <div class="shortcode-widget-area">
+                                <form action="#" class="form-newsletter">
+                                    <fieldset>
+                                        <span class="form-newsletter-title"> با عضویت در خبرنامه از آخرین اخبار و
+                                            محصولات سایت مطلع شوید...</span>
+                                        <div class="input-group-newsletter">
+                                            <input type="email" class="input-field form-control"
+                                                placeholder="آدرس ایمیل خود را وارد کنید">
+                                            <button class="btn btn-info btn-secondary" type="submit">ارسال</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="footer-more-info">
+                            
+                            
+                            <div class="footer-copyright">
+                                <div class="footer-copyright-text">
+                                    <p>تمامی مطالب، عکس ها و... متعلق به سایت تجارت ایرانیان می باشد.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </footer>
+    <!-- footer------------------------------------------->
+    <!-- scroll_Progress------------------------->
+    <div class="progress-wrap">
+        <svg' %} class="progress-circle svg' %}-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        </svg' %}>
+    </div>
+    <!-- scroll_Progress------------------------->
+    <!-- Page Loader----------------------------->
+    <div class="P-loader">
+        <div class="P-loader-content">
+            <div class="logo-loader">
+                <img src="{% static 'assets4/images/logo-2.png' %}" alt="logo">
+            </div>
+            <div class="pic-loader text-center">
+                <img src="{% static 'assets4/images/three-dots.svg' %}" width="50" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- Page Loader------------------------------>
+
+</body>
+
+{% endblock content %}

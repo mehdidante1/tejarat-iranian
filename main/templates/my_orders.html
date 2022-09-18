@@ -1,0 +1,393 @@
+{% extends 'base.html' %}
+
+{% load humanizelib %}
+{% block content %}
+{% load static %}
+<body>
+    <!-- header-------------------------------->
+{% include 'header.html' %}
+    <!-- profile-------------------------------->
+    <div class="container-main">
+        <div class="d-block">
+            <section class="profile-home">
+                <div class="col-lg">
+                    <div class="post-item-profile order-1 d-block">
+                        <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                            <div class="sidebar-profile sidebar-navigation">
+                                <section class="profile-box">
+                                    <header class="profile-box-header-inline">
+                                        <div class="profile-avatar user-avatar profile-img">
+                                            <img src="{% static 'assets4/images/man.png' %}">
+                                        </div>
+                                    </header>
+                                    <footer class="profile-box-content-footer">
+                                        <span class="profile-box-nameuser">{{data.first_name}} {{data.last_name}}</span>
+                                        <span class="profile-box-registery-date">عضویت در سایت {{data.date_joined}}</span>
+                                        <span class="profile-box-phone"> آدرس ایمیل : {{data.email}}</span>
+                                        <div class="profile-box-tabs">
+                                            <a href="#" class="profile-box-tab-sign-out"><i
+                                                    class="mdi mdi-logout-variant"></i>خروج از حساب</a>
+                                        </div>
+                                    </footer>
+                                </section>
+                                <section class="profile-box">
+                                    <ul class="profile-account-navs">
+                                        <li class="profile-account-nav-item navigation-link-dashboard">
+                                            <a href="{% url 'my_dashboard' %}"><i class="mdi mdi-account-outline"></i>
+                                                پروفایل
+                                            </a>
+                                        </li>
+                                        <li class="profile-account-nav-item navigation-link-dashboard">
+                                            <a href="{% url 'my_orders' %}" class="active"><i class="mdi mdi-cart"></i>
+                                                همه سفارش ها
+                                            </a>
+                                        </li>
+                                        <li class="profile-account-nav-item navigation-link-dashboard">
+                                            <a href="{% url 'wishlist' %}" class=""><i class="mdi mdi-heart"></i>
+                                                لیست علاقه مندی
+                                            </a>
+                                        </li>
+                                        <li class="profile-account-nav-item navigation-link-dashboard">
+                                            <a href="{% url 'my_address' %}" class=""><i class="mdi mdi-map-outline"></i>
+                                                آدرس ها
+                                            </a>
+                                        </li>
+                                        <li class="profile-account-nav-item navigation-link-dashboard">
+                                            <a href="{% url 'my_review' %}" class=""><i class="mdi mdi-email-open-outline"></i>
+                                                نظرات
+                                            </a>
+                                        </li>
+                                        <li class="profile-account-nav-item navigation-link-dashboard">
+                                            <a href="{% url 'Edit_Profile' %}" class=""><i class="mdi mdi-tooltip-text-outline"></i>
+                                                اطلاعات حساب
+                                            </a>
+                                        </li>
+                                        <li class="profile-account-nav-item navigation-link-dashboard">
+                                            <a href="{% url 'password_change' %}" class=""><i class="mdi mdi-tooltip-text-outline"></i>
+                                                تغیر کلمه عبور
+                                            </a>
+                                        </li>
+                                        <li class="profile-account-nav-item navigation-link-dashboard">
+                                            <a href="{% url 'notifs' %}" class=""><i class="fa fa-bell" aria-hidden="true"></i>
+                                                اعلانات<span style="margin-right:140px;color:white;" class="badge bg-info">12</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                            <div class="profile-content">
+                                <div class="profile-stats">
+                                    <div class="table-orders">
+                                        <table class="table table-profile-orders">
+                                            {% if orders %}
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">شماره سفارش</th>
+                                                    <th scope="col">تاریخ ثبت سفارش</th>
+                                                    <th scope="col">وضعیت</th>
+                                                    <th scope="col">مجموع</th>
+                                                    <th scope="col">جزئیات</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for order in orders %}
+                                                <tr>
+                                                    
+                                                    <td class="order-code">{{order.id}}</td>
+                                                    <td>{{order.jpublish}}</td>
+                                                    {% if order.status == 'Accepted' %}
+                                                    <td class="Waiting text-success">پرداخت شده</td>
+                                                    {% else %}
+                                                    <td class="Waiting text-danger">پرداخت نشده</td>
+                                                    {% endif %}
+                                                    <td class="totla">
+                                                        <span class="amount">{{order.total|intcomma}}
+                                                            <span>تومان</span>
+                                                        </span>
+                                                    </td>
+                                                    <td class="detail"><a href="{% url 'my_order_items' order.id %}"
+                                                            class="btn btn-secondary d-block">نمایش</a></td>
+                                                    
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                            {% else %}
+                                            <div class="container-main">
+                                                <div class="d-block">
+                                                    <div class="main-row">
+                                                        <section class="cart-home">
+                                                            <div class="post-item-cart d-block order-2">
+                                                                <div class="content-page">
+                                                                    <div class="cart-form">
+                                                                        <div class="cart-empty text-center d-block">
+                                                                            <div class="cart-empty-img mb-4 mt-4">
+                                                                                <img style ="width:300px;height:300px" src="{% static 'assets4/images/empty_order.png' %}">
+                                                                            </div>
+                                                                            <p class="cart-empty-title">لیست سفارشات شما خالی می باشد.</p>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </section>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </table>
+                                        {% for order in orders %}
+                                        <div class="profile-orders">
+                                            <div class="collapse">
+                                                <div class="profile-orders-item">
+                                                    <div class="profile-orders-header">
+                                                        <a href="{% url 'my_order_items' order.id %}"
+                                                            class="profile-orders-header-details">
+                                                            <div class="profile-orders-header-summary">
+                                                                <div class="profile-orders-header-row">
+                                                                    <span
+                                                                        class="profile-orders-header-id">{{order.id}}</span>
+                                                                        {% if order.status == 'Accepted' %}
+                                                                        <span
+                                                                        class="profile-orders-header-state text-success">پرداخت
+                                                                        شده</span>
+                                                                        {% else %}
+                                                                        <span
+                                                                        class="profile-orders-header-state text-danger">پرداخت
+                                                                        نشده</span>
+                                                                        {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <!-- <hr class="ui-separator"> -->
+                                                        <div class="profile-orders-header-data">
+                                                            <div class="profile-info-row">
+                                                                <div class="profile-info-label">تاریخ ثبت سفارش</div>
+                                                                <div class="profile-info-value">{{order.jpublish}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="profile-info-row">
+                                                                <div class="profile-info-label">مبلغ کل</div>
+                                                                <div class="profile-info-value">
+                                                                    <span class="amount">{{order.total|intcomma}}
+                                                                        <span>تومان</span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- profile------------------------------->
+
+    <!-- footer-------------------------------->
+    <footer class="footer-main-site">
+        <section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+            <div class="footer-shopping-features">
+                <div class="container-fluid">
+                    <div class="col-12">
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/delivery-truck.svg' %}" width="50"
+                                    alt="تحویل اکسپرس" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">تحویل اکسپرس</span>
+                            <span class="desc-shopping">در کمترین زمان دریافت کنید</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/24-hours-support.svg' %}" width="50"
+                                    alt="پشتیبانی ۲۴ ساعته" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">پشتیبانی ۲۴ ساعته</span>
+                            <span class="desc-shopping">پشتیبانی هفت روز هفته</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/income.svg' %}" width="50" alt="پرداخت در محل"
+                                    class="img-shopping">
+                            </span>
+                            <span class="title-shopping">پرداخت در محل</span>
+                            <span class="desc-shopping">هنگام دریافت پرداخت کنید</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/easy-return.svg' %}" width="50"
+                                    alt="۷ روز ضمانت بازگشت" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">۷ روز ضمانت بازگشت</span>
+                            <span class="desc-shopping">هفت روز مهلت دارید </span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/original.svg' %}" width="50"
+                                    alt="ضمانت اصل‌بودن کالا" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">ضمانت اصل‌بودن کالا</span>
+                            <span class="desc-shopping">تایید اصالت کالا</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+            <div class="container-fluid">
+                <div class="col-12">
+                    <div class="footer-middlebar">
+                        <div class="col-lg-8 d-block pr">
+                            <div class="footer-links">
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    با تجارت ایرانیان 
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        تماس با ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       درباره ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       سبد خرید
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        ثبت نام در سامانه
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    با تجارت ایرانیان 
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        تماس با ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       درباره ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       سبد خرید
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        ثبت نام در سامانه
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    شرکت بازرگانی تجارت ایرانیان
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        شرکت بازرگانی تجارت ایرانیان وارد کننده پیشرفته ترین تجهیزات لاغری و موضعی شکم و پهلو تناسب اندام
+                                                    </a>
+                                                </li>
+                                                
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-block pl">
+                            <div class="shortcode-widget-area">
+                                <form action="#" class="form-newsletter">
+                                    <fieldset>
+                                        <span class="form-newsletter-title"> با عضویت در خبرنامه از آخرین اخبار و
+                                            محصولات سایت مطلع شوید...</span>
+                                        <div class="input-group-newsletter">
+                                            <input type="email" class="input-field form-control"
+                                                placeholder="آدرس ایمیل خود را وارد کنید">
+                                            <button class="btn btn-info btn-secondary" type="submit">ارسال</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="footer-more-info">
+                            
+                            
+                            <div class="footer-copyright">
+                                <div class="footer-copyright-text">
+                                    <p>تمامی مطالب، عکس ها و... متعلق به سایت تجارت ایرانیان می باشد.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </footer>
+    <!-- footer------------------------------------------->
+    <!-- scroll_Progress------------------------->
+    <div class="progress-wrap">
+        <svg' %} class="progress-circle svg' %}-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        </svg' %}>
+    </div>
+    <!-- scroll_Progress------------------------->
+    <!-- Page Loader----------------------------->
+    <div class="P-loader">
+        <div class="P-loader-content">
+            <div class="logo-loader">
+                <img src="{% static 'assets4/images/logo.png' %}" alt="logo">
+            </div>
+            <div class="pic-loader text-center">
+                <img src="{% static 'assets4/images/three-dots.svg' %}" width="50" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- Page Loader----------------------------->
+
+</body>
+
+{% endblock content %}
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="676px" height="1014px" viewBox="0 0 676 1014" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Shield</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="zarif_polymer" transform="translate(12.000000, 12.000000)" stroke="#283C57" stroke-width="23">
+            <g id="Shield">
+                <path d="M31,263 L31,811 C133,870 236,929 338,988 C435.33,928 531.67,869 629,809 C628.67,627 629.33,444 629,262 L31,263 Z" id="Path"></path>
+                <polygon id="Path" points="324 353 428 353 428 448 530 448 530 535 428 535 428 631 324 631 324 535 224 535 224 448 324 448"></polygon>
+                <polygon id="Path" fill="#00A7AB" fill-rule="nonzero" points="224 630 128 630 128 715 224 715 224 810 324 810 324 715 428 715 428 630 324 630 324 535 224 534"></polygon>
+                <path d="M31,263 L629,261.945783 L629,88 L590.74,88.253012 C589.32,128.376506 560.06,160.509036 525.18,163.650602 C486,167.171687 448.81,133.331325 447,88 L425,88 L400.88,88.2108434 C399.46,128.34488 370.2,160.47741 335.32,163.618976 C296.17,167.14006 259,133.331325 257.14,88 L234.14,88 L234,88 L211,88 C209.19,133.331325 172,167.171687 132.82,163.650602 C97.94,160.487952 68.68,128.376506 67.26,88.253012 L31,89.0542169 L31,263 Z" id="Path" fill="#00A7AB" fill-rule="nonzero"></path>
+                <circle id="Oval" fill="#00A7AB" fill-rule="nonzero" cx="46" cy="46" r="46"></circle>
+                <circle id="Oval" fill="#00A7AB" fill-rule="nonzero" cx="234" cy="46" r="46"></circle>
+                <circle id="Oval" fill="#00A7AB" fill-rule="nonzero" cx="423" cy="46" r="46"></circle>
+                <circle id="Oval" fill="#00A7AB" fill-rule="nonzero" cx="606" cy="46" r="46"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

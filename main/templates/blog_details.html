@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>single-blog</title>
+    <!-- font---------------------------------------->
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/materialdesignicons.css' %}">
+    <!-- plugin-------------------------------------->
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/noUISlider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/nice-select.css' %}">
+    <!-- main-style---------------------------------->
+    <link rel="stylesheet" href="{% static 'assets4/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/responsive.css' %}">
+</head>
+
+<body>
+    <!-- header-------------------------------->
+{% include 'header.html' %}
+    <!-- header-------------------------------->
+
+    <!-- single-blog---------------------------->
+    <main class="main-row mb-2 mt-2 d-block">
+        <div class="container-main">
+            <div class="d-block">
+                <div class="col-lg-9 col-md-8 col-xs-12 pr mt-3">
+                    <section class="blog-home">
+                        <article class="post-item">
+                            <header class="entry-header mb-3">
+                                <div class="post-meta date">
+                                    <i class="mdi mdi-calendar-month"></i>{{blog.date}}
+                                </div>
+                                <div class="post-meta author">
+                                    <i class="mdi mdi-account-circle-outline"></i>
+                                    ارسال شده توسط <a href="#"> {{user.first_name}} {{user.last_name}} </a>
+                                </div>
+                                <div class="post-meta category">
+                                    <i class="mdi mdi-folder"></i>
+                                    <a href="#">تجهیزات زیبایی و لاغری</a>  
+                                        
+                                </div>
+                                <div class="post-meta Visit">
+                                    <i class="mdi mdi-eye"></i>
+                                    {{blog.views}} بازدید
+                                </div>
+                            </header>
+                            <div class="post-thumbnail">
+                                <img src="{{blog.image.url}}"
+                                    alt="تعداد بازی‌کننده‌های فورتنایت، به خاطر آپدیت اخیر کاهش پیدا کرد">
+                            </div>
+                            <div class="title">
+                                <a href="#">
+                                    <h1 class="title-tag">{{blog.title}}
+                                        </h1>
+                                </a>
+                            </div>
+                            <div class="content-blog">
+                                <p>
+                                    {{blog.descriptions|safe}}
+                                </p>
+                            </div>
+                        </article>
+                        <div class="post-comments">
+                            <div class="comments-area">
+                                <h2 class="comments-title">
+                                    <i class="fa fa-comment-o"></i>
+                                    نظرات کاربران
+                                    <p class="count-comment">{{comments.count}} نظر</p>
+                                </h2>
+                                {% for cm in comments %}
+                                <ol class="comment-list">
+                                    <li class="comment-even">
+                                        <div class="comment-body">
+                                            <header class="comment-meta">
+                                                <div class="comment-author">
+                                                    <img src="{% static 'assets4/images/man.png' %}" class="avator">
+                                                    توسط {{cm.name}} در {{cm.create_date}}
+                                                </div>
+                                            </header>
+                                            <p>{{cm.text}}</p>
+                                            <div class="reply text-left">
+                                                <a href="#" data-toggle="modal" data-target="#exampleModalCenter2" class="comment-reply-link">پاسخ دادن</a>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    {% for relpy in cm.replies.all %}
+                                    <li class="comment-even">
+                                     <div style="background-color:#FFFACD;" class="comment-body">
+                                         <header class="comment-meta">
+                                             <div class="comment-author">
+                                                 <img src="{% static 'assets4/images/man.png' %}" class="avator">
+                                                 پاسخ <b>{{relpy.name}}</b> در {{relpy.create_date}}
+                                             </div>
+                                         </header>
+                                         <p>{{relpy.text}}</p>
+                                    </li>
+                                     {% endfor %}
+                                   
+                                                <!--  ####### modal comment ################## -->
+  
+  <!-- Modal -->
+<form action="#" method="POST" class="col-12">
+{% csrf_token %}
+<input type="hidden" name="comment_blog_id" value="{{cm.id}}">
+  <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">پاسخ به نظر</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-comment">
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-ui">
+                        <div class="row">
+                            <div class="col-12">
+                                <br>
+                                <br>
+                                <div class="form-row-title mb-2"> نام شما (اجباری)</div>
+                                <div class="form-row">
+                                    <input name ="name" class="input-ui pr-2" type="text"
+                                        placeholder=" نام خود را بنویسید">
+                                </div>
+                                <br>
+                                <div class="form-row-title mb-2">عنوان نظر شما (اجباری)</div>
+                                <div class="form-row">
+                                    <input name="title" class="input-ui pr-2" type="text"
+                                        placeholder="عنوان نظر خود را بنویسید">
+                                </div>
+                            </div>
+                            <div class="col-12 mt-5">
+                                <div class="form-row-title mb-2">متن نظر شما (اجباری)</div>
+                                <div class="form-row">
+                                    <textarea name = "text" class="input-ui pr-2 pt-2" rows="5"
+                                        placeholder="متن خود را بنویسید"
+                                        style="height:120px;"></textarea>
+                                </div>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button style="margin-left:30px;" type="button" class="btn btn-secondary" data-dismiss="modal">بیخیال</button>
+          <button type="submit" class="btn btn-primary">ثبت پاسخ</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+
+                               <!--  ####### modal comment ################## -->
+                                </ol>
+                                {% endfor %}
+                                <div class="form-comment">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-ui">
+                                            <div class="row">
+                                                <form action="#" method="POST" class="col-12">
+                                                    {% csrf_token %}
+                                                <div class="col-12">
+                                                    <br>
+                                                    <br>
+                                                    <div class="form-row-title mb-2"> نام شما (اجباری)</div>
+                                                    <div class="form-row">
+                                                        <input name ="name" class="input-ui pr-2" type="text"
+                                                            placeholder=" نام خود را بنویسید">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-row-title mb-2">عنوان نظر شما (اجباری)</div>
+                                                    <div class="form-row">
+                                                        <input name="title" class="input-ui pr-2" type="text"
+                                                            placeholder="عنوان نظر خود را بنویسید">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 mt-5">
+                                                    <div class="form-row-title mb-2">متن نظر شما (اجباری)</div>
+                                                    <div class="form-row">
+                                                        <textarea name = "text" class="input-ui pr-2 pt-2" rows="5"
+                                                            placeholder="متن خود را بنویسید"
+                                                            style="height:120px;"></textarea>
+                                                    </div>
+                                                </div>
+                    
+                                                <div class="col-12 mt-5 px-0">
+                                                    <button type="submit" class="btn comment-submit-button">
+                                                        ثبت نظر
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                   
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="col-lg-3 col-md-4 col-xs-12 pr mt-3 sticky-sidebar">
+                    <div class="shortcode-widget-area-sidebar">
+                        <section class="widget-posts">
+                            <div class="header-sidebar mb-3">
+                                <h3>جدیدترین نوشته ها</h3>
+                            </div>
+                            <div class="content-sidebar">
+                                {% for blog_item in blog_item  %}
+                                <div class="item">
+                                    <div class="item-inner">
+                                        <div class="item-thumb">
+                                            <a href="/blog_detail/{{blog_item.id}}" class="img-holder d-block">
+                                                <img src="{{blog_item.image.url}}"
+                                                    alt="{{blog_item.title}}">
+                                            </a>
+                                        </div>
+                                        <div class="title">
+                                            <a href="/blog_detail/{{blog_item.id}}">
+                                                <h2 class="title-tag">{{blog_item.title}}
+                                                   </h2>
+                                            </a>
+                                            <span class="post-date">
+                                                {{blog_item.date}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- single-blog---------------------------->
+
+    <!-- footer-------------------------------->
+    <footer class="footer-main-site">
+        <section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+            <div class="footer-shopping-features">
+                <div class="container-fluid">
+                    <div class="col-12">
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/delivery-truck.svg' %}" width="50"
+                                    alt="تحویل اکسپرس" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">تحویل اکسپرس</span>
+                            <span class="desc-shopping">در کمترین زمان دریافت کنید</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/24-hours-support.svg' %}" width="50"
+                                    alt="پشتیبانی ۲۴ ساعته" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">پشتیبانی ۲۴ ساعته</span>
+                            <span class="desc-shopping">پشتیبانی هفت روز هفته</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/income.svg' %}" width="50" alt="پرداخت در محل"
+                                    class="img-shopping">
+                            </span>
+                            <span class="title-shopping">پرداخت در محل</span>
+                            <span class="desc-shopping">هنگام دریافت پرداخت کنید</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/easy-return.svg' %}" width="50"
+                                    alt="۷ روز ضمانت بازگشت" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">۷ روز ضمانت بازگشت</span>
+                            <span class="desc-shopping">هفت روز مهلت دارید </span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/original.svg' %}" width="50"
+                                    alt="ضمانت اصل‌بودن کالا" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">ضمانت اصل‌بودن کالا</span>
+                            <span class="desc-shopping">تایید اصالت کالا</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+            <div class="container-fluid">
+                <div class="col-12">
+                    <div class="footer-middlebar">
+                        <div class="col-lg-8 d-block pr">
+                            <div class="footer-links">
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    با تجارت ایرانیان 
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        تماس با ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       درباره ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       سبد خرید
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        ثبت نام در سامانه
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    با تجارت ایرانیان 
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        تماس با ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       درباره ما
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                       سبد خرید
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        ثبت نام در سامانه
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    شرکت بازرگانی تجارت ایرانیان
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        شرکت بازرگانی تجارت ایرانیان وارد کننده پیشرفته ترین تجهیزات لاغری و موضعی شکم و پهلو تناسب اندام
+                                                    </a>
+                                                </li>
+                                                
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-block pl">
+                            <div class="shortcode-widget-area">
+                                <form action="#" class="form-newsletter">
+                                    <fieldset>
+                                        <span class="form-newsletter-title"> با عضویت در خبرنامه از آخرین اخبار و
+                                            محصولات سایت مطلع شوید...</span>
+                                        <div class="input-group-newsletter">
+                                            <input type="email" class="input-field form-control"
+                                                placeholder="آدرس ایمیل خود را وارد کنید">
+                                            <button class="btn btn-info btn-secondary" type="submit">ارسال</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="footer-more-info">
+                            
+                            
+                            <div class="footer-copyright">
+                                <div class="footer-copyright-text">
+                                    <p>تمامی مطالب، عکس ها و... متعلق به سایت تجارت ایرانیان می باشد.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </footer>
+    <!-- footer-------------------------------------------->
+    <!-- scroll_Progress-------------------------->
+    <div class="progress-wrap">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        </svg>
+    </div>
+    <!-- scroll_Progress-------------------------->
+    <!-- Page Loader------------------------------>
+    <div class="P-loader">
+        <div class="P-loader-content">
+            <div class="logo-loader">
+                <img src="{% static 'assets4/images/logo.png' %}" alt="logo">
+            </div>
+            <div class="pic-loader text-center">
+                <img src="{% static 'assets4/images/three-dots.svg' %}" width="50" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- Page Loader------------------------------>
+
+</body>
+<!-- file js---------------------------------------------------->
+<script src="{% static 'assets4/js/vendor/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/bootstrap.js' %}"></script>
+<!-- plugin------------------------------------------------------>
+<script src="{% static 'assets4/js/vendor/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/jquery.countdown.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/ResizeSensor.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/theia-sticky-sidebar.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/wNumb.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/nouislider.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/jquery.nice-select.min.js' %}"></script>
+<!-- main js---------------------------------------------------->
+<script src="{% static 'assets4/js/main.js' %}"></script>
+
+</html>

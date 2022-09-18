@@ -1,0 +1,45 @@
+{% load static %}
+<div class="faq">
+    <h2 class="params-headline">پرسش و پاسخ
+        <span>پرسش خود را در مورد محصول مطرح نمایید</span>
+    </h2>
+    
+        
+        <div class="form-faq-row mt-4">
+            <div class="form-faq-col form-faq-col-submit text-center">
+                <button type="submit" class="btn btn-primary col-lg-5 show-form" data-toggle="modal" data-target="#exampleModal-comment">
+                    <span class="fa fa-plus"></span>
+                    ثبت پرسش
+                </button>
+            </div>
+        </div>
+       
+    {% for comment in comment %}
+    <div id="product-questions-list" >
+        <div class="questions-list">
+            
+            <ul class="faq-list">
+                <li class="is-question">
+                    <div class="section">
+                        <div class="faq-header">
+                            <span class="icon-faq">?</span>
+                            <p class="h5">
+                                پرسش :
+                                <span>{{comment.name}} {{comment.family}}</span>
+                            </p>
+                        </div>
+                        <p>{{comment.text_comment}}</p>
+                        <div class="faq-date">
+                            <em>{{comment.add_time}}</em>
+                        </div>
+                        <a href="#" class="js-add-answer-btn">به این پرسش پاسخ
+                            دهید </a>
+                    </div>
+                </li>
+            </ul>
+          
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<script src="{% static  'assets4/comment.js' %}"></script>

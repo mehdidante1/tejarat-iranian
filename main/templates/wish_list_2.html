@@ -1,0 +1,31 @@
+                                            {% for wr in wlist %}
+                                                <tr>
+                                                    <th scope="row">
+                                                        <div class="favorites-product-img">
+                                                            <img src="{{wr.product.image.url}}">
+                                                            <div class="product-rate">
+                                                                <i class="fa fa-star active"></i>
+                                                                <i class="fa fa-star active"></i>
+                                                                <i class="fa fa-star active"></i>
+                                                                <i class="fa fa-star active"></i>
+                                                                <i class="fa fa-star active"></i>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <td>
+                                                        <a href="/product_detail/{{wr.product.slug}}/{{wr.product.id}}">{{wr.product.title}}
+                                                            </a>
+                                                    </td>
+                                                    <td>
+                                                        <span class="amount">{{wr.product.productattribute_set.first.price}}
+                                                            <span>تومان</span>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-left actions">
+                                                        <a  data-url="{% url 'wishlist_delete' wr.id %}"  class="remove-product show-form-delete"><i
+                                                                class="mdi mdi-close"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr class="spacer"></tr>
+                                                {% endfor %}
+                                                

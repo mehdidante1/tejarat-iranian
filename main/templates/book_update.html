@@ -1,0 +1,17 @@
+{% load crispy_forms_tags %}
+<form method="post" data-url="{% url 'book_update' form.instance.id %}" class="update-form">
+	{% csrf_token %}
+		<div class="modal-header">
+		<h5 class="modal-title" >بروزرسانی سبد خرید</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+		</button>
+		</div>
+		<div class="modal-body text-center">
+		{{form|crispy}}
+		</div>
+		<div class="modal-footer">
+			<button style ="margin-left:10px" type="button" class="btn btn-secondary" data-dismiss="modal">بیخیال  <i class="fa fa-times text-danger" aria-hidden="true"></i></button>
+		<button type="submit" class="btn btn-danger">بله <i class="fa fa-check text-success" aria-hidden="true"></i></button>
+		</div>
+</form>

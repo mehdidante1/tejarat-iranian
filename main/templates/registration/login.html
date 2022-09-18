@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<!-- login---------------------------------->
+<div class="container">
+    <div class="row">
+        <div class="col-lg">
+            <section class="page-account-box">
+                <div class="col-lg-6 col-md-6 col-xs-12 mx-auto">
+                    <div class="ds-userlogin">
+                       
+                        <div class="account-box">
+                            <div class="account-box-headline">
+                                <a href="{% url 'login' %}" class="login-ds active">
+                                    <span class="title">ورود</span>
+                                    <span class="sub-title">به تجارت ایرانیان</span>
+                                </a>
+                                <a href="{% url 'signup' %}" class="register-ds">
+                                    <span class="title">ثبت نام</span>
+                                    <span class="sub-title">در تجارت ایرانیان</span>
+                                </a>
+                            </div>
+                            <div class="Login-to-account mt-4">
+                                <div style="padding: 35px;" class="account-box-content">
+                                    <h4>ورود به حساب کاربری</h4>
+                                    <form method="POST" class="form-account text-right">
+                                        {% csrf_token %}
+                                        {{ form|crispy }}
+                                    
+                                        <a href="{% url 'forgotpass' %}" class="account-link-password">رمز خود را فراموش کرده ام</a>
+                                        <div class="form-auth-row">
+                                            <label for="#" class="ui-checkbox mt-1">
+                                                <input type="checkbox" value="1" name="login" id="remember">
+                                                <span class="ui-checkbox-check"></span>
+                                            </label>
+                                            <label for="remember" class="remember-me mr-0">مرا به خاطر بسپار</label>
+                                        </div>
+                                        
+                                        <div class="form-row-account">
+                                            <button class="btn btn-primary btn-login">ورود به تجارت ایرانیان </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- login----------------------------------->
+
+{% endblock content %}

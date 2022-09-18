@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه وبلاگ</title>
+    <!-- font---------------------------------------->
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/materialdesignicons.css' %}">
+    <!-- plugin-------------------------------------->
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/noUISlider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/vendor/nice-select.css' %}">
+    <!-- main-style---------------------------------->
+    <link rel="stylesheet" href="{% static 'assets4/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'assets4/css/responsive.css' %}">
+</head>
+
+<body>
+    <!-- header-------------------------------->
+  {% include 'header.html' %}
+    <!-- header-------------------------------->
+
+    <!-- blog---------------------------------->
+    <main class="main-row mb-2 mt-2">
+        <div class="container-main">
+            <div class="d-block">
+                <section class="content-widget">
+                    {% for blog_list in blog_list %}
+                    <div class="col-12 col-md-4 col-lg-4 col-xl-4 items-2 pr">
+                        <article class="blog-item">
+                            <figure class="figure">
+                                <div class="post-thumbnail">
+                                    <img style="width:500px;height:350px" src="{{blog_list.image.url}}"
+                                        alt="{{blog_list.title}}">
+                                </div>
+
+                                <div class="post-title">
+                                    <a href="/blog_detail/{{blog_list.id}}" class="d-block">
+                                        <h4>{{blog_list.title}}</h4>
+                                    </a>
+                                    <span class="post-date">
+                                        <i class="fa fa-calendar"></i>
+                                        {{blog_list.date}}
+                                    </span>
+                                </div>
+                            </figure>
+                        </article>
+                    </div>
+                    {% endfor %}
+                </section>
+                
+                <div class="col-lg-9 col-md-8 col-xs-12 pr mt-3">
+                    {% for blog_list in blog_list %}
+                    <section class="content-widget">
+                        <article class="post-item">
+                            <div class="post-thumb">
+                                <a href="/blog_detail/{{blog_list.id}}" class="d-block">
+                                    <img src="{{blog_list.image.url}}"
+                                        alt="{{blog_list.title}}">
+                                </a>
+                            </div>
+                            <div class="post-content">
+                                <div class="title">
+                                    <a href="/blog_detail/{{blog_list.id}}">
+                                        <h2 class="title-tag">{{blog_list.title}}
+                                           </h2>
+                                    </a>
+                                </div>
+                                <div class="excerpt">{{blog_list.descriptions|slice:":255"}} ...</div>
+                                <span class="post-date">
+                                    <i class="fa fa-calendar"></i>
+                                    {{blog_list.date}}
+                                </span>
+                            </div>
+                        </article>
+                    </section>
+                    {% endfor %}
+                </div>
+               
+                <div class="col-lg-3 col-md-4 col-xs-12 pr mt-3 sticky-sidebar">
+                    <div class="shortcode-widget-area-sidebar">
+                        <section class="widget-posts">
+                            <div class="header-sidebar mb-3">
+                                <h3>جدیدترین نوشته ها</h3>
+                            </div>
+                            <div class="content-sidebar">
+                                {% for blog_list in blog_list %}
+                                <div class="item">
+                                    <div class="item-inner">
+                                        <div class="item-thumb">
+                                            <a href="/blog_detail/{{blog_list.id}}" class="img-holder d-block">
+                                                <img src="{{blog_list.image.url}}"
+                                                    alt="{{blog_list.title}}">
+                                            </a>
+                                        </div>
+                                        <div class="title">
+                                            <a href="/blog_detail/{{blog_list.id}}">
+                                                <h2 class="title-tag">{{blog_list.title}}
+                                                    </h2>
+                                            </a>
+                                            <span class="post-date">
+                                                {{blog_list.date}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="pagination-product pr-3 pl-3 pr">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link active" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">...</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">8</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- blog---------------------------------->
+
+    <!-- footer-------------------------------->
+    <footer class="footer-main-site">
+        <section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+            <div class="footer-shopping-features">
+                <div class="container-fluid">
+                    <div class="col-12">
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/delivery-truck.svg' %}" width="50"
+                                    alt="تحویل اکسپرس" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">تحویل اکسپرس</span>
+                            <span class="desc-shopping">در کمترین زمان دریافت کنید</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/24-hours-support.svg' %}" width="50"
+                                    alt="پشتیبانی ۲۴ ساعته" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">پشتیبانی ۲۴ ساعته</span>
+                            <span class="desc-shopping">پشتیبانی هفت روز هفته</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/income.svg' %}" width="50" alt="پرداخت در محل"
+                                    class="img-shopping">
+                            </span>
+                            <span class="title-shopping">پرداخت در محل</span>
+                            <span class="desc-shopping">هنگام دریافت پرداخت کنید</span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/easy-return.svg' %}" width="50"
+                                    alt="۷ روز ضمانت بازگشت" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">۷ روز ضمانت بازگشت</span>
+                            <span class="desc-shopping">هفت روز مهلت دارید </span>
+                        </div>
+                        <div class="item">
+                            <span class="icon-shopping">
+                                <img src="{% static 'assets4/images/footer/features/original.svg' %}" width="50"
+                                    alt="ضمانت اصل‌بودن کالا" class="img-shopping">
+                            </span>
+                            <span class="title-shopping">ضمانت اصل‌بودن کالا</span>
+                            <span class="desc-shopping">تایید اصالت کالا</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="d-block d-xl-block d-lg-block d-md-block d-sm-block order-1">
+            <div class="container-fluid">
+                <div class="col-12">
+                    <div class="footer-middlebar">
+                        <div class="col-lg-8 d-block pr">
+                            <div class="footer-links">
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    با دیجی اسمارت
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        اتاق خبر دیجی اسمارت
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        فروش در دیجی اسمارت
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        همکاری با سازمان‌ها
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        فرصت‌های شغلی
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    خدمات مشتریان
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        پاسخ به پرسش‌های متداول
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        رویه‌های بازگرداندن کالا
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        شرایط استفاده
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        حریم خصوصی
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                                    <div class="row">
+                                        <section class="footer-links-col">
+                                            <div class="headline-links">
+                                                <a href="#">
+                                                    راهنمای خرید از دیجی اسمارت
+                                                </a>
+                                            </div>
+                                            <ul class="footer-menu-ul">
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        نحوه ثبت سفارش
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        رویه ارسال سفارش
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item-type-custom">
+                                                    <a href="#">
+                                                        شیوه‌های پرداخت
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-block pl">
+                            <div class="shortcode-widget-area">
+                                <form action="#" class="form-newsletter">
+                                    <fieldset>
+                                        <span class="form-newsletter-title"> با عضویت در خبرنامه از آخرین اخبار و
+                                            محصولات سایت مطلع شوید...</span>
+                                        <div class="input-group-newsletter">
+                                            <input type="email" class="input-field form-control"
+                                                placeholder="آدرس ایمیل خود را وارد کنید">
+                                            <button class="btn btn-info btn-secondary" type="submit">ارسال</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="footer-more-info">
+                            <div class="col-lg-10 pr">
+                                <div class="footer-content d-block">
+                                    <div class="text pr-1">
+                                        <h2 class="title">فروشگاه اینترنتی دیجی اسمارت</h2>
+                                        <p class="desc"> دیجی اسمارت به عنوان یکی از قدیمی‌ترین فروشگاه های اینترنتی با
+                                            بیش از یک دهه تجربه، با پایبندی به سه اصل کلیدی، پرداخت در محل، 7 روز ضمانت
+                                            بازگشت کالا و تضمین اصل‌بودن کالا، موفق شده تا همگام با فروشگاه‌های معتبر
+                                            جهان، به بزرگ‌ترین فروشگاه اینترنتی ایران تبدیل شود. به محض ورود به دیجی
+                                            اسمارت با یک سایت پر از کالا رو به رو می‌شوید! هر آنچه که نیاز دارید و به
+                                            ذهن شما خطور می‌کند در اینجا پیدا خواهید کرد.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 pl">
+                                <div class="footer-safety-partner">
+                                    <div class="widget widget-product card mb-0">
+                                        <div
+                                            class="product-carousel-symbol owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
+                                            <div class="owl-stage-outer">
+                                                <div class="owl-stage"
+                                                    style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 2234px;">
+                                                    <div class="owl-item active"
+                                                        style="width: 300.75px; margin-left: 10px;">
+                                                        <div class="item">
+                                                            <a href="#" class="d-block hover-img-link">
+                                                                <img src="{% static 'assets4/images/footer/license/L-1.png' %}"
+                                                                    class="img-fluid img-brand" alt="">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="owl-item active"
+                                                        style="width: 300.75px; margin-left: 10px;">
+                                                        <div class="item">
+                                                            <a href="#" class="d-block hover-img-link mt-0">
+                                                                <img src="{% static 'assets4/images/footer/license/L-2.png' %}"
+                                                                    class="img-fluid img-brand" alt="">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="footer-copyright">
+                                <div class="footer-copyright-text">
+                                    <p>تمامی مطالب، عکس ها و... متعلق به سایت تجارت ایرانیان می باشد.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
+    <!-- footer-------------------------------------------->
+    <!-- scroll_Progress-------------------------->
+    <div class="progress-wrap">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        </svg>
+    </div>
+    <!-- scroll_Progress-------------------------->
+    <!-- Page Loader------------------------------>
+    <div class="P-loader">
+        <div class="P-loader-content">
+            <div class="logo-loader">
+                <img src="{% static 'assets4/images/logo.png' %}" alt="logo">
+            </div>
+            <div class="pic-loader text-center">
+                <img src="{% static 'assets4/images/three-dots.svg' %}" width="50" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- Page Loader----------------------------->
+
+</body>
+<!-- file js---------------------------------------------------->
+<script src="{% static 'assets4/js/vendor/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/bootstrap.js' %}"></script>
+<!-- plugin------------------------------------------------------>
+<script src="{% static 'assets4/js/vendor/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/jquery.countdown.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/ResizeSensor.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/theia-sticky-sidebar.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/wNumb.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/nouislider.min.js' %}"></script>
+<script src="{% static 'assets4/js/vendor/jquery.nice-select.min.js' %}"></script>
+<!-- main js---------------------------------------------------->
+<script src="{% static 'assets4/js/main.js' %}"></script>
+
+</html>

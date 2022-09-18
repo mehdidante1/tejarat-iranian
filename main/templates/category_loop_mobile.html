@@ -1,0 +1,15 @@
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                            data-parent="#accordionExample" style="">
+                            <ul>
+                                {% for cat in cat.children.all  %}
+                                <li class="has-sub"><a href="#" class="category-level-2">{{cat.title}}</a>
+                                    <ul>
+                                        {% for cat in cat.children.all %}
+                                        <li><a href="#" class="category-level-3">{{cat.title}}</a></li>
+                                        {% endfor %}
+                                       
+                                    </ul>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>

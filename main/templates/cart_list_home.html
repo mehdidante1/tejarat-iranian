@@ -1,0 +1,73 @@
+{% load humanizelib %}
+<div class="header-cart-basket">
+    <a href="#" class="cart-basket-box">
+        <span class="icon-cart">
+            <i class="mdi mdi-shopping"></i>
+        </span>
+        <span class="title-cart">سبد خرید</span>
+        <span class="price-cart">{{total|intcomma}}
+            <span>تومان</span>
+        </span>
+        <span style="color:red;" class="count-cart">{{shopcart.count}}</span>
+    </a>
+    <div class="widget-shopping-cart">
+        <div class="widget-shopping-cart-content">
+            <div class="wrapper">
+                <div class="scrollbar" id="style-1">
+                    <div class="force-overflow">
+                        <ul class="product-list-widget">
+                            {% for item in shopcart %}
+                            <li class="mini-cart-item">
+                                <div class="mini-cart-item-content">
+                                    <a data-url="{% url 'delete_cart_home' item.id %}" class="mini-cart-item-close show-form-delete">
+                                        <i class="mdi mdi-close"></i>
+                                    </a>
+                                    <a href="#"
+                                        class="mini-cart-item-image d-block">
+                                        <img
+                                        {% if item.variant.image_id  > 0 %}
+                                        <img src="{{item.variant.image}}">
+                                          {% else %}
+                                         <img src="{{item.product.image.url}}">
+                                         {% endif %}
+                                    </a>
+                                    <span class="product-name-card">
+                                        {{item.product.title}}
+                                        </span>
+                                    <div class="variation">
+                                        <span class="variation-n">فروشنده :
+                                        </span>
+                                        <p class="mb-0">کالامارکت </p>
+                                    </div>
+                                    <div
+                                        class="header-basket-list-item-color-badge">
+                                        رنگ:
+                                        <span style="background:{{item.variant.color.color_code}}"></span>
+                                    </div>
+                                    <div class="quantity">
+                                        <span class="quantity-Price-amount">
+                                            {{item.product.price|intcomma}}
+                                            <span>تومان</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                         {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mini-card-total">
+                <strong>قیمت کل : </strong>
+                <span class="price-total"> {{total|intcomma}}
+                    <span>تومان</span>
+                </span>
+                
+            </div>
+            <div class="mini-card-button">
+                <a href="{% url 'cart'%}" class="view-card">مشاهده سبد خرید</a>
+                <a href="{% url 'order_product' %}" class="card-checkout">تسویه حساب</a>
+            </div>
+        </div>
+    </div>
+</div>

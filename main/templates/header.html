@@ -1,0 +1,26 @@
+{% load static %}
+{% block header %}
+<!-- header-------------------------------->
+<header class="header-main">
+    <div class="container-main">
+        <div class="d-block">
+            <section class="h-main-row">
+                <div class="col-lg-9 col-md-12 col-xs-12 pr">
+                    <div class="header-right">
+                        <div class="col-lg-3 pr">
+                            <div class="header-logo row text-right">
+                                <a href="{% url 'home' %}">
+                                    <img src="{% static 'assets4/images/logo-2.png' %}" alt="دیجی اسمارت">
+                                </a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </section>
+           
+        </div>
+    </div>
+</header>
+{% endblock header %}
